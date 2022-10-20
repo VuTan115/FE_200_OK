@@ -1,0 +1,55 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+}
+
+body {
+  font-family: 'Lexend Deca', sans-serif;
+
+  &::-webkit-scrollbar {
+    width: 0.25rem;
+    height: 0.25rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f6f6ff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #6969e7;
+    border-radius: 10px;
+  }
+}
+
+.container-xl,
+.container-lg,
+.container-md,
+.container-sm,
+.container {
+  max-width: 1302px;
+  margin: 0 auto;
+}
+
+.hide_scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.custom_scrollbar {
+  &::-webkit-scrollbar {
+    width: 0.25rem;
+    height: 0.25rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f6f6ff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #6969e7;
+    border-radius: 10px;
+  }
+}
