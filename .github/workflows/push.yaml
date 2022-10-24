@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - main
+      - master
 env:
   image_repository: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.APP_NAME }}
 
