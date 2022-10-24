@@ -1,5 +1,5 @@
 export interface ITestComponentProps {
-  data: 'test';
+  data?: 'test';
 }
 import styles from './styles.module.scss';
 export function TestComponent(props: ITestComponentProps) {
