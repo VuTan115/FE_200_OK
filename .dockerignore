@@ -1,0 +1,12 @@
+.husky
+dist
+node_modules
+.gitignore
+.gitpod.yml
+.prettierrc
+.stylelintignore
+.stylintrc.json
+.stylelintrc.json
+Dockerfile
+next-env.d.ts
+README.md
