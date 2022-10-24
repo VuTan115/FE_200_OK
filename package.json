@@ -11,7 +11,7 @@
     "lint": "npm run lint:script && npm run lint:prettier && npm run lint:style",
     "lintfix": "prettier --write --list-different \"src/**/*+(js|jsx|ts|tsx|scss)\" && npm run lint:script -- --fix && npm run lint:style -- --fix",
     "prepare": "husky install",
-    "production": "NODE_ENV=production yarn build && pm2 start yarn  --interpreter bash --name 200-ok -- start"
+    "production": "NODE_ENV=production && yarn && yarn build && pm2 start yarn  --interpreter bash --name 200-ok -- start"
   },
   "dependencies": {
     "antd": "^4.21.6",
