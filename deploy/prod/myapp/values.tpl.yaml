@@ -86,7 +86,7 @@ sish-client:
     enabled: false
   enabled: ${SISH_ENABLED}
   service:
-    name: ssh-tunnel
+    name: cookie-fe-ssh-tunnel
   services:
     sish:
       domain: ${DOMAIN}
