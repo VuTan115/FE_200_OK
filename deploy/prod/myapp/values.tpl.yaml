@@ -86,7 +86,7 @@ sish-client:
     enabled: false
   enabled: ${SISH_ENABLED}
   service:
-    name: cookie-fe-ssh-tunnel
+    name: ${SISH_SERVICE_NAME}
   services:
     sish:
       domain: ${DOMAIN}
@@ -97,3 +97,26 @@ sish-client:
       from:
         domain: ${FROM_DOMAIN}
         port: ${FROM_PORT}
+
+nginx:
+  enabled: ${NGINX_ENABLED}
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  service:
+    type: ClusterIP
+  serverBlock: |
+    server {
+      listen 80;
+      
+      location /api {
+        proxy_pass http://cookie-be;
+      }
+      location / {
+        proxy_pass http://cookie-fe;
+      }
+    }

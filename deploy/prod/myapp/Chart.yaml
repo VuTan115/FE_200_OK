@@ -28,3 +28,7 @@ dependencies:
     version: 0.6.0
     repository: https://aqaurius6666.github.io/helm-charts/
     condition: sish-client.enabled
+  - name: nginx
+    version: 13.2.12
+    repository: https://charts.bitnami.com/bitnami
+    condition: nginx.enabled
