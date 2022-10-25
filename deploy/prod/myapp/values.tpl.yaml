@@ -114,6 +114,8 @@ nginx:
   serverBlock: |
     server {
       listen 8080;
+
+      server_name cookie.aqaurius6666.space;
       
       location /api {
         proxy_pass http://cookie-be;
