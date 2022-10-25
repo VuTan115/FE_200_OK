@@ -117,10 +117,10 @@ nginx:
 
       server_name cookie.aqaurius6666.space;
       
-      location /api {
-        proxy_pass http://cookie-be;
+      location ~ ^/api.*$ {
+        proxy_pass http://cookie-be:3000$1;
       }
-      location / {
-        proxy_pass http://cookie-fe;
+      location ~ ^/(?!api) {
+        proxy_pass http://cookie-fe:3000;
       }
     }
