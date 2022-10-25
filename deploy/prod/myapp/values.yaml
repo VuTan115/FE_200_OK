@@ -82,6 +82,8 @@ tolerations: []
 affinity: {}
 
 sish-client:
+  service:
+    name: cookie-fe-ssh-tunnel
   dns_resolver:
     enabled: false
   enabled: true
