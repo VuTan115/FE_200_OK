@@ -84,14 +84,16 @@ affinity: {}
 sish-client:
   dns_resolver:
     enabled: false
-  enabled: true
+  enabled: ${SISH_ENABLED}
+  service:
+    name: ssh-tunnel
   services:
     sish:
-      domain: 10.10.10.11
-      port: 22222
+      domain: ${DOMAIN}
+      port: ${SSH_PORT}
       request:
-        domain: cookie
-        port: 80
+        domain: ${SUB_DOMAIN}
+        port: ${REQUEST_PORT}
       from:
-        domain: cookie-fe
-        port: 3000
+        domain: ${FROM_DOMAIN}
+        port: ${FROM_PORT}
