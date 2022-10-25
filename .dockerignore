@@ -5,8 +5,15 @@ node_modules
 .gitpod.yml
 .prettierrc
 .stylelintignore
+.eslintignore
+.eslintrc.js
+.git
 .stylintrc.json
 .stylelintrc.json
 Dockerfile
 next-env.d.ts
 README.md
+.github
+.dockerignore
+.secrets
+deploy

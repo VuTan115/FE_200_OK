@@ -1,0 +1,9 @@
+dependencies:
+- name: sish-client
+  repository: https://aqaurius6666.github.io/helm-charts/
+  version: 0.6.0
+- name: nginx
+  repository: https://charts.bitnami.com/bitnami
+  version: 13.2.12
+digest: sha256:e6e2bf39e24526a42414de32e967c260182a891960383177b676c8f404fb7592
+generated: "2022-10-25T09:43:24.357213263+07:00"
