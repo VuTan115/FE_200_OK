@@ -109,9 +109,11 @@ nginx:
       memory: 128Mi
   service:
     type: ClusterIP
+    ports:
+      http: 8080
   serverBlock: |
     server {
-      listen 80;
+      listen 8080;
       
       location /api {
         proxy_pass http://cookie-be;
