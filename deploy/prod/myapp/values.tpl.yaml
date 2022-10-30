@@ -111,21 +111,3 @@ nginx:
     type: ClusterIP
     ports:
       http: 8080
-  serverBlock: |
-    server {
-      listen 8080;
-      resolver kube-dns.kube-system valid=10s;
-      server_name cookie.aqaurius6666.space;
-      
-      location ~ ^\/api\/(.*)$  {
-          proxy_set_header Host $http_host;
-          rewrite /api/(.*) /$1  break;
-          proxy_pass         http://cookie-be:3000;
-          proxy_redirect     off;
-          proxy_set_header   Host $host;
-        }
-      location ~ ^/(?!api) {
-        proxy_set_header Host $http_host;
-        proxy_pass http://cookie-fe:3000;
-      }
-    }
