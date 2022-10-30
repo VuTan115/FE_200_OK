@@ -1,5 +1,16 @@
 
 nginx:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  service:
+    type: ClusterIP
+    ports:
+      http: 8080
   serverBlock: |
     server {
       listen 8080;
