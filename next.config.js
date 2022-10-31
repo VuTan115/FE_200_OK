@@ -18,7 +18,7 @@ module.exports = withLess({
   },
   // optimizeFonts: false,
   images: {
-    domains: ['storage.googleapis.com'],
+    domains: ['storage.googleapis.com', 'joeschmoe.io', 'images.foody.vn'],
     formats: ['image/avif', 'image/webp'],
   },
   experimental: { images: { layoutRaw: true }, appDir: true },

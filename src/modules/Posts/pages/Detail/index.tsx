@@ -129,7 +129,7 @@ const PostDetailModule = (props: Props) => {
         <Card className="w-full" actions={ActionBuilder()}>
           <Skeleton loading={loading} avatar active>
             {mockData.map((post) => (
-              <PostContent post={post} />
+              <PostContent post={post} key={post.id} />
             ))}
             <CommentDetail />
           </Skeleton>
@@ -144,24 +144,7 @@ const PostDetailModule = (props: Props) => {
             title="Bánh mỳ ngon"
             // description only has 200 characters max length
 
-            description={` Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.
-          Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
-          Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
-          Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
-          Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
-          Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
-          Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
-          Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
-          Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
-          Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
-          Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
-          Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
-          Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
-          Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae. Quisquam, quae.
-          Quisquam, quae. Quisquam, qu`
-              .split(' ')
-              .slice(0, 20)
-              .join(' ')}
+            description={``.split(' ').slice(0, 20).join(' ')}
           />
         </Card>
       </div>

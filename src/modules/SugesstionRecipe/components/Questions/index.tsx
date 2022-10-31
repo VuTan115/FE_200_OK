@@ -93,7 +93,7 @@ const Questions = (props: Props, ref) => {
                     size="large"
                   >
                     {item.answers.map((answer) => (
-                      <div className="flex w-full relative items-center">
+                      <div className="flex w-full relative items-center" key={answer.id}>
                         <Image
                           width={26}
                           height={26}
