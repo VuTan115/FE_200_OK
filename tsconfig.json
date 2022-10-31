@@ -7,6 +7,18 @@
       ],
       "@globalStyles/*": [
         "src/assets/styles/*"
+      ],
+      "@components": [
+        "src/components/*"
+      ],
+      "@layout": [
+        "src/layout/*"
+      ],
+      "@pages": [
+        "src/pages/*"
+      ],
+      "@services": [
+        "src/shared/services/*"
       ]
     },
     "target": "es5",
@@ -28,7 +40,12 @@
     "isolatedModules": true,
     "noImplicitAny": false,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "exclude": [
     "node_modules",
@@ -42,6 +59,8 @@
     "types/**/*.d.ts",
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "src/components/VetifyInput/index.js",
+    ".next/types/**/*.ts"
   ]
 }
