@@ -2,8 +2,8 @@ trigger: none
 
 variables:
   azPool: 'My linux'
-  k8sNamespace: 'movie'
-  k8sReleaseName: 'movie-fe'
+  k8sNamespace: 'cookie'
+  k8sReleaseName: 'cookie-fe'
   k8sServiceConnection: '10.10.10.8'
 
 pool: $(azPool)
