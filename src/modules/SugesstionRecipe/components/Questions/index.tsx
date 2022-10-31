@@ -25,7 +25,7 @@ const Questions = (props: Props, ref) => {
   const { questions } = props;
   const onChange = (answerId, item) => {
     console.log(doneAnswers);
-    //if new insert else update in doneAnswer by setDoneAnswers
+    // if new insert else update in doneAnswer by setDoneAnswers
     const index = doneAnswers.findIndex(
       (doneAnswer) => doneAnswer.questionId === item.id
     );
@@ -99,7 +99,7 @@ const Questions = (props: Props, ref) => {
                           height={26}
                           src={SrcIcons.iconLogo}
                           alt="cookies"
-                          //selected then  animate-pulse
+                          // selected then  animate-pulse
                           className={clsx(
                             'absolute -left-[10px] z-10 ',
                             doneAnswers.find(

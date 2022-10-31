@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p ${PORT-3002}",
+    "start": "next start -p ${PORT-3000}",
     "types-check": "tsc --pretty --noEmit",
     "lint:prettier": "prettier --check \"src/**/*+(js|jsx|ts|tsx|scss)\"",
     "lint:script": "eslint -c .eslintrc.js \"./src/**/*.{ts,tsx}\"",
