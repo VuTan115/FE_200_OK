@@ -1,0 +1,39 @@
+.ant-btn-primary {
+  border-radius: 8px !important;
+  background-color: var(--primary-color) !important;
+}
+.ant-input-affix-wrapper {
+  border-radius: 8px !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.ant-input-affix-wrapper:hover {
+  border: 1px solid var(--border-color) !important;
+}
+
+.ant-input:focus {
+  border-color: var(--primary-color) !important;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 2px rgba(226, 207, 36, 0.2);
+  box-shadow: 0 0 0 2px rgba(226, 207, 36, 0.2);
+}
+
+.ant-card-actions > li > span a:not(.ant-btn):hover,
+.ant-card-actions > li > span > .anticon:hover {
+  color: var(--primary-color) !important;
+}
+
+.ant-radio-button-wrapper-checked {
+  color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+  background-color: var(--primary-color) !important;
+}
+.ant-radio-button-wrapper:hover {
+  color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+.ant-radio-button-wrapper:not(:first-child)::before {
+  display: none;
+}

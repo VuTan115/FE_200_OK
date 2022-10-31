@@ -6,8 +6,7 @@ import { useSelector } from 'react-redux';
 
 const Auth = ({ children }) => {
   const isAuthenticated = useSelector((state: IRootState) => state.auth.isAuthenticated);
-  const { role_codes } = useSelector((state: IRootState) => state.auth.me);
-  const isAdmin = role_codes?.includes('admin');
+  const isAdmin = false;
   const router = useRouter();
   useEffect(() => {
     if (!isAuthenticated) {

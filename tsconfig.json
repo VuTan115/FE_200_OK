@@ -2,31 +2,15 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@globalStyles/*": [
-        "src/assets/styles/*"
-      ],
-      "@components": [
-        "src/components/*"
-      ],
-      "@layout": [
-        "src/layout/*"
-      ],
-      "@pages": [
-        "src/pages/*"
-      ],
-      "@services": [
-        "src/shared/services/*"
-      ]
+      "@/*": ["./src/*"],
+      "@globalStyles/*": ["src/assets/styles/*"],
+      "@components": ["src/components/*"],
+      "@layout": ["src/layout/*"],
+      "@pages": ["src/pages/*"],
+      "@services": ["src/shared/services/*"]
     },
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -47,14 +31,7 @@
       }
     ]
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    ".next",
-    "next.config.js",
-    "bundles",
-    "coverage"
-  ],
+  "exclude": ["node_modules", "dist", ".next", "next.config.js", "bundles", "coverage"],
   "include": [
     "types/**/*.d.ts",
     "next-env.d.ts",

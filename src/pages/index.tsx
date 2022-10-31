@@ -1,12 +1,13 @@
+import PostDetailModule from '@/modules/Posts/pages/Detail';
 import { IRootState } from '@/store';
 import type { NextPage } from 'next';
 import { useSelector } from 'react-redux';
 
 const Home: NextPage = () => {
-  const { role_codes } = useSelector((state: IRootState) => state.auth.me);
-  const isAdmin = role_codes?.includes('enterprise');
+  const { id } = useSelector((state: IRootState) => state.auth.me);
+  const isAdmin = false;
 
-  return <>{isAdmin ? 'admin' : 'home'}</>;
+  return <>{isAdmin ? 'admin' : <PostDetailModule />}</>;
 };
 
 export default Home;

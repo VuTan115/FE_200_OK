@@ -13,6 +13,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@apollo/client": "^3.6.9",
     "@ckeditor/ckeditor5-build-classic": "file:ckeditor5-build-classic",
     "@ckeditor/ckeditor5-react": "^2.1.0",

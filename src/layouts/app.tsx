@@ -9,8 +9,7 @@ export interface IAppLayoutProps {
 }
 
 export function AppLayout(props: IAppLayoutProps) {
-  const { role_codes } = useSelector((state: IRootState) => state.auth.me);
-  const isAdmin = role_codes?.includes('enterprise');
+  const isAdmin = false;
   const { children } = props;
   const router = useRouter();
 

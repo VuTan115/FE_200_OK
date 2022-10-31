@@ -18,13 +18,13 @@ const slice = createSlice({
         isAuthenticated,
       };
     },
-    logoutAuth(state, action) {
-      return {
-        ...state,
-        isAuthenticated: false,
-        me: {},
-      };
-    },
+    // logoutAuth(state, action) {
+    //   return {
+    //     ...state,
+    //     isAuthenticated: false,
+    //     me: {},
+    //   };
+    // },
     setAuthUser(state, action) {
       return {
         ...state,
@@ -43,6 +43,11 @@ const slice = createSlice({
   },
 });
 
-export const { checkAuth, logoutAuth, setAuthUser, setUserFieldValue } = slice.actions;
+export const {
+  checkAuth,
+  // logoutAuth,
+  setAuthUser,
+  setUserFieldValue,
+} = slice.actions;
 
 export default slice.reducer;

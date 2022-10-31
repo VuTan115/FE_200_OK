@@ -7,7 +7,8 @@
   [type='button'],
   [type='reset'],
   [type='submit'] {
-    background-color: #1890ff !important;
+    background-color: var(--primary-color) !important;
+    border: none;
   }
 
   :root {
@@ -24,5 +25,7 @@
     --main-content-padding-right: 24px;
     --nav-bar-zindex: 999;
     --side-bar-zindex: 999;
+    --primary-color: #ffbc58;
+    --border-color: #c2c9d1;
   }
 }

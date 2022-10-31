@@ -1,28 +1,128 @@
+import SrcIcons from '@/assets/icons';
 import SrcImages from '@/assets/images';
-import { Button } from 'antd';
-import Image from 'next/legacy/image';
+import { SearchOutlined } from '@ant-design/icons';
+import { AutoComplete, Button, Input } from 'antd';
+import type { SelectProps } from 'antd/es/select';
+import Image from 'next/image';
 import Link from 'next/link';
-
+import { useState } from 'react';
 export interface INavBarProps {
   data?: 'TODO:Change me';
 }
+const menuItems = [
+  {
+    name: 'Bài đăng',
+    hideOnMobile: true,
+    url: '#',
+    iconUrl: '',
+    yieldName: '',
+  },
+  {
+    name: 'Đang theo dõi',
+    hideOnMobile: true,
+    url: '#',
+    iconUrl: '',
+    yieldName: '',
+  },
+  {
+    name: 'Gợi ý',
+    hideOnMobile: true,
+    url: 'goi-y',
+    iconUrl: '',
+    yieldName: '',
+  },
+  {
+    name: 'Tag',
+    hideOnMobile: true,
+    url: '#',
+    iconUrl: '',
+    yieldName: '',
+  },
+];
+const getRandomInt = (max: number, min = 0) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
+const searchResult = (query: string) =>
+  new Array(getRandomInt(5))
+    .join('.')
+    .split('.')
+    .map((_, idx) => {
+      const category = `${query}${idx}`;
+      return {
+        value: category,
+        label: (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span>
+              Found {query} on{' '}
+              <a href={`/search?q=${query}`} target="_blank" rel="noopener noreferrer">
+                {category}
+              </a>
+            </span>
+            <span>{getRandomInt(200, 100)} results</span>
+          </div>
+        ),
+      };
+    });
 
 export function NavBar(props: INavBarProps) {
+  const [options, setOptions] = useState<SelectProps<object>['options']>([]);
+
+  const handleSearch = (value: string) => {
+    setOptions(value ? searchResult(value) : []);
+  };
+
+  const onSelect = (value: string) => {
+    console.log('onSelect', value);
+  };
   return (
-    <nav className="fixed w-full bg-white h-[var(--height-navbar)] shadow-[inset_0px_-1px_0px_#E2E2EA] px-3 z-[var(--nav-bar-zindex)] ">
-      <div className="container h-full">
-        <div className="flex w-full  justify-between items-center">
-          <div className="flex-shrink">
+    <nav className="fixed w-full bg-white h-[var(--height-navbar)] shadow-[inset_0px_-1px_0px_#E2E2EA] px-5 z-[var(--nav-bar-zindex)] ">
+      <div className="">
+        <div className="flex w-full  justify-between items-center gap-5">
+          <div className="flex">
             <Link href="/" legacyBehavior>
-              <div className="logo relative h-[var(--height-navbar)] w-full min-w-[165px]"></div>
+              <div className="logo relative h-[var(--height-navbar)] w-full min-w-[165px] flex items-center align-middle justify-center gap-3">
+                <Image width={32} height={32} src={SrcIcons.iconLogo} alt="cookies" />
+                <h1 className="text-[26px] font-[500] cursor-pointer">Cookies</h1>
+              </div>
             </Link>
           </div>
-          <div className="flex gap-4 my-auto">
+
+          <div className="flex w-full gap-4 my-auto flex-row justify-end items-center">
+            <div className="flex gap-6 mr-auto ml-5">
+              {menuItems.map((item) => (
+                <Link href={item.url}>
+                  <span className="text-[16px] whitespace-nowrap">{item.name}</span>
+                </Link>
+              ))}
+            </div>
+            <AutoComplete
+              dropdownMatchSelectWidth={252}
+              style={{ width: 300 }}
+              options={options}
+              onSelect={onSelect}
+              onSearch={handleSearch}
+            >
+              <Input
+                size="large"
+                placeholder="Tìm kiếm"
+                suffix={<SearchOutlined />}
+                className="max-w-[300px]"
+              />
+            </AutoComplete>
             <Link href="/sign-up" legacyBehavior>
-              <Button type="primary">Đăng ký</Button>
+              <Button type="primary" size="large">
+                Đăng ký
+              </Button>
             </Link>
             <Link href="/login" legacyBehavior>
-              <Button type="primary">Đăng nhập</Button>
+              <Button type="primary" size="large">
+                Đăng nhập
+              </Button>
             </Link>
           </div>
         </div>

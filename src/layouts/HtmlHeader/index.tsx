@@ -7,7 +7,7 @@ interface IProps {
   children?: ReactNode;
 }
 
-const defaultSiteTitle = 'Cookies+';
+const defaultSiteTitle = 'Cookies';
 
 /**
  * Usage note

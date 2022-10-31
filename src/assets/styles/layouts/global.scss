@@ -19,8 +19,7 @@ a {
 
 body {
   font-family: 'Lexend Deca', sans-serif !important;
-  zoom: var(--body-zoom-factor);
-  background: #f6f6ff;
+  background: #f8f6f2;
 
   &::-webkit-scrollbar {
     width: 0.25rem;
@@ -40,7 +39,7 @@ body {
 #__main {
   min-height: 100vh;
   display: block;
-  background-color: #f6f6ff;
+  background: #f8f6f2;
 
   // margin-left: var(--width-sidebar);
   padding: calc(var(--main-content-padding-top) + var(--height-navbar)) 0 0 0;
@@ -140,4 +139,7 @@ input[type='number']::-webkit-outer-spin-button {
 
 input:focus-within {
   outline: none;
+}
+.card {
+  @apply border border-solid border-[#E2E2EA] p-4 bg-white rounded-[8px];
 }
