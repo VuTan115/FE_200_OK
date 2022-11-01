@@ -6,7 +6,7 @@ export interface IPost {
   content: string;
   isReceipe: boolean;
   author: IUser;
-  tags: Array<string>;
+  tags: string[];
   createdAt: string;
   updatedAt: string;
 }

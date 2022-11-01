@@ -140,6 +140,7 @@ input[type='number']::-webkit-outer-spin-button {
 input:focus-within {
   outline: none;
 }
+
 .card {
   @apply border border-solid border-[#E2E2EA] p-4 bg-white rounded-[8px];
 }
