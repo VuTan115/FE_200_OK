@@ -5,13 +5,15 @@
 
 // library
 @import './layouts/nprogress';
-
+@import './layouts/next-ui';
+@import './layouts/cookies-design-system';
+@import './layouts/ckeditor';
+@import 'tailwindcss/tailwind.css';
 @import './libs/tailwind';
 
 // layouts
 @import './layouts/animation';
 @import './layouts/global';
 
-:root {
-  $primary-color: 'TODO:change-me';
-}
+@import './layouts/ant';
+@import 'antd/dist/antd.css';

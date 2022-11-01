@@ -2,6 +2,8 @@ module.exports = {
   plugins: {
     tailwindcss: {},
     autoprefixer: {},
+    'postcss-import': {},
+    'tailwindcss/nesting': {},
     'postcss-preset-env': {},
     'postcss-flexbugs-fixes': {},
     'postcss-preset-env': {
@@ -10,16 +12,9 @@ module.exports = {
       },
       stage: 3,
       features: {
-        'custom-properties': false,
+        'custom-properties': true,
       },
     },
-    '@fullhuman/postcss-purgecss': {
-      content: [
-        './src/pages/**/*.{js,jsx,ts,tsx}',
-        './src/components/**/*.{js,jsx,ts,tsx}',
-      ],
-      defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
-      safelist: ['html', 'body'],
-    },
+    ...(process.env.NODE_ENV === 'production' ? { cssnano: {} } : {}),
   },
 };

@@ -49,6 +49,10 @@ module.exports = {
   },
 
   rules: {
+    eqeqeq: 'off',
+    curly: 'error',
+    quotes: ['error', 'double'],
+
     // prettier
     'prettier/prettier': [
       'warn',

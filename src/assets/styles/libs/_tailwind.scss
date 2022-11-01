@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  button,
+  [type='button'],
+  [type='reset'],
+  [type='submit'] {
+    background-color: var(--primary-color) !important;
+    border: none;
+  }
+
+  :root {
+    --body-zoom-factor: 0.85;
+    --line-height-title: 39px;
+    --line-placeholder-title: 20px;
+    --font-size-title: 28px;
+    --font-weight-title: 600;
+    --height-navbar: 80px;
+    --width-sidebar: 233px;
+    --main-content-padding-left: 20px;
+    --main-content-padding-top: 24px;
+    --main-content-padding-bottom: 5rem;
+    --main-content-padding-right: 24px;
+    --nav-bar-zindex: 999;
+    --side-bar-zindex: 999;
+    --primary-color: #ffbc58;
+    --border-color: #c2c9d1;
+  }
+}

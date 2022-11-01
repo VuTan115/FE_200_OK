@@ -52,6 +52,23 @@
   }
 }
 
+@keyframes push {
+  50% {
+    transform: scale(0.8);
+  }
+}
+
 html {
   scroll-behavior: smooth;
+}
+
+.smooth_animation {
+  transform: all 0.6s ease;
+}
+
+@keyframes scroll-infinity {
+  100% {
+    left: -100%;
+  }
+  /* top is the number of spans (in this case 8) multiplied by span height (45px as described above) */
 }

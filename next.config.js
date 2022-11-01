@@ -1,15 +1,25 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
-  reactStrictMode: true,
-  swcMinify: false,
+const withLess = require('next-with-less');
+const path = require('path');
+const pathToLessFileWithVariables = path.resolve(
+  './src/assets/styles/layouts/antd-custom.less'
+);
+module.exports = withLess({
+  lessLoaderOptions: {
+    additionalData: (content) =>
+      `${content}\n\n@import '${pathToLessFileWithVariables}';`,
+  },
+  reactStrictMode: false,
+  swcMinify: true,
   poweredByHeader: false,
   distDir: 'dist',
   compiler: {
     styledComponents: true,
   },
+  // optimizeFonts: false,
   images: {
     domains: ['storage.googleapis.com'],
     formats: ['image/avif', 'image/webp'],
   },
-  experimental: { images: { layoutRaw: true } },
-};
+  experimental: { images: { layoutRaw: true }, appDir: true },
+});
