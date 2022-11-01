@@ -14,9 +14,9 @@ on:
 env:
   image_repository: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.APP_NAME }}
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
- name: Build and push Docker image
+  build:
+    name: Build and push Docker image
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.tags.outputs.value }}    
@@ -47,7 +47,7 @@ jobs:
       - name: create .env.production
         uses: SpicyPizza/create-envfile@v1.3
         with:
-          envkey_PLACE_HOLDER: "123"
+          envkey_NEXT_PUBLIC_APP_API_URL: "/api"
           file_name: .env.production
           fail_on_empty: false
 

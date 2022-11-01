@@ -2,6 +2,8 @@ FROM node:16.13.2-alpine
 
 WORKDIR /app
 
+COPY ckeditor5-build-classic ./ckeditor5-build-classic
+
 COPY package.json yarn.lock ./
 
 RUN yarn --frozen-lockfile
