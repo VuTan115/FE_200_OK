@@ -11,6 +11,7 @@ RUN yarn --frozen-lockfile
 COPY . .
 
 ENV NODE_ENV=production
+ENV PORT="3000"
 
 RUN yarn build
 
