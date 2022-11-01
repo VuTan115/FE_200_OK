@@ -1,6 +1,6 @@
 class SrcImages {
   static #imgPath = '/images/';
-  public static iconYouth = `${SrcImages.#imgPath}logo.png`;
+  public static iconCookies = `${SrcImages.#imgPath}logo.png`;
   public static diet = `${SrcImages.#imgPath}diet.svg`;
   public static donut = `${SrcImages.#imgPath}donut.svg`;
   public static energizer = `${SrcImages.#imgPath}energizer.svg`;

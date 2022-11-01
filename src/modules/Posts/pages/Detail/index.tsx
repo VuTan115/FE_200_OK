@@ -1,16 +1,15 @@
+import CookiesIcon, { CookiesSVG } from '@/components/CookiesIcon';
 import { IPost } from '@/interfaces/models/IPost';
 import {
   CommentOutlined,
   DownCircleOutlined,
   DownCircleTwoTone,
   EllipsisOutlined,
-  FrownOutlined,
-  MehOutlined,
   ShareAltOutlined,
-  SmileOutlined,
   UpCircleOutlined,
   UpCircleTwoTone,
 } from '@ant-design/icons';
+import Icon, { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon';
 import { Avatar, Card, Rate, Skeleton, Tooltip } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import React, { createElement, useEffect, useState } from 'react';
@@ -26,7 +25,6 @@ const ActionBuilder = () => {
   const dislike = () => {
     setAction('disliked');
   };
-
   const actions = [
     <div onClick={like}>
       <Tooltip key="comment-basic-like" title="UpVote">
@@ -80,6 +78,13 @@ type Props = {
 };
 const PostContent = (props: { post: IPost }) => {
   const { post } = props;
+  const customIcons: Record<number, React.ReactNode> = {
+    1: <CookiesIcon />,
+    2: <CookiesIcon />,
+    3: <CookiesIcon />,
+    4: <CookiesIcon />,
+    5: <CookiesIcon />,
+  };
   return (
     <>
       <div className="flex justify-between items-center">
@@ -88,12 +93,15 @@ const PostContent = (props: { post: IPost }) => {
           title={post.author.name}
           description={post.createdAt}
         />
-        <Rate
-          allowHalf
-          defaultValue={2.5}
-          className="text-[var(--primary-color)]"
-          character={({ index }: { index: number }) => customIcons[index + 1]}
-        />
+        <div>
+          2.5/5.0 &nbsp;
+          <Rate
+            allowHalf
+            defaultValue={2.5}
+            className="text-[var(--primary-color)]"
+            character={({ index }: { index: number }) => customIcons[index + 1]}
+          />
+        </div>
       </div>
       <div className="post-content">
         <div className="title">
@@ -105,13 +113,6 @@ const PostContent = (props: { post: IPost }) => {
       </div>
     </>
   );
-};
-const customIcons: Record<number, React.ReactNode> = {
-  1: <FrownOutlined />,
-  2: <FrownOutlined />,
-  3: <MehOutlined />,
-  4: <SmileOutlined />,
-  5: <SmileOutlined />,
 };
 
 const PostDetailModule = (props: Props) => {
@@ -144,7 +145,7 @@ const PostDetailModule = (props: Props) => {
             title="Bánh mỳ ngon"
             // description only has 200 characters max length
 
-            description={``.split(' ').slice(0, 20).join(' ')}
+            description={''.split(' ').slice(0, 20).join(' ')}
           />
         </Card>
       </div>
