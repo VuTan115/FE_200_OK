@@ -1,6 +1,8 @@
-import { Button } from 'antd';
+import { appLibrary } from '@/shared/utils/loading';
+import { Button, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import Questions from '../../components/Questions';
+import Sugesstions from '../../components/Sugesstions';
 
 type Props = {
   data?: any;
@@ -89,10 +91,9 @@ const CreateSugesstionModule = (props: Props) => {
     currentStep: () => number;
     getAnswers: () => { answerId: number; questionId: number }[];
   }>();
-  const [CurrentStep, setCurrentStep] = useState(0);
-  useEffect(() => {
-    console.log(questionRef);
-  }, [questionRef]);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [moveToSugesstion, setMoveToSugesstion] = useState(false);
+  useEffect(() => {}, [questionRef]);
   const handlePrevStep = () => {
     if (questionRef.current) {
       questionRef.current.prev();
@@ -102,27 +103,48 @@ const CreateSugesstionModule = (props: Props) => {
     if (questionRef.current) {
       questionRef.current.next();
     }
-    if (CurrentStep === mockupData.length - 1) {
-      console.log('done');
-      console.log(questionRef.current.getAnswers());
+    if (currentStep === mockupData.length - 1) {
+      const data = questionRef.current.getAnswers();
+      const notAnsweredQuestion = mockupData.filter(
+        (item) => !data.find((i) => i.questionId === item.id)
+      );
+      if (notAnsweredQuestion.length) {
+        message.warning(
+          `Bạn chưa trả lời câu hỏi: ${notAnsweredQuestion
+            .map((item) => item.question)
+            .join(', ')}`
+        );
+        return;
+      }
+      onSubmitAnswers();
     }
+  };
+  const onSubmitAnswers = () => {
+    appLibrary.showloading();
+    setMoveToSugesstion(true);
+    appLibrary.hideloading();
   };
   return (
     <>
       <div>
-        <Questions
-          ref={questionRef}
-          questions={mockupData}
-          onStepChange={setCurrentStep}
-        />
-        <div className="flex gap-5 mx-auto  justify-center items-center mt-5">
-          <Button type="primary" onClick={handlePrevStep}>
-            Trước đó
-          </Button>
-          <Button type="primary" onClick={handleNextStep}>
-            {CurrentStep === mockupData.length - 1 ? 'Gửi đáp án' : 'Tiếp theo'}
-          </Button>
-        </div>
+        {!moveToSugesstion && (
+          <div>
+            <Questions
+              ref={questionRef}
+              questions={mockupData}
+              onStepChange={setCurrentStep}
+            />
+            <div className="flex gap-5 mx-auto  justify-center items-center mt-5">
+              <Button type="primary" onClick={handlePrevStep}>
+                Trước đó
+              </Button>
+              <Button type="primary" onClick={handleNextStep}>
+                {currentStep === mockupData.length - 1 ? 'Gửi đáp án' : 'Tiếp theo'}
+              </Button>
+            </div>
+          </div>
+        )}
+        {moveToSugesstion && <Sugesstions />}
       </div>
     </>
   );
