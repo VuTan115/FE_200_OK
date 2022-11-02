@@ -1,7 +1,5 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { Cookies } from '.';
-import { SV_RES_STATUS_CODE } from '../enums/enums';
-import { authService } from '../services';
 
 let isRefreshing = false;
 let failedQueue = [];
@@ -28,7 +26,7 @@ function rejectErrorAndClearToken(error: AxiosError) {
 const cancelTokenSource = axios.CancelToken.source();
 
 const apiVer1: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_APP_API_URL,
   timeout: 10000,
   headers: {
     Accept: 'application/json',
@@ -38,13 +36,6 @@ const apiVer1: AxiosInstance = axios.create({
 
 apiVer1.interceptors.request.use(
   (config) => {
-    const accessToken = Cookies.get(process.env.NEXT_PUBLIC_ACCESS_TOKEN_NAME);
-    if (accessToken) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`;
-      config.headers['Token-Is-Present'] = 1;
-      config.headers['Cache-Control'] = 'public, s-maxage=10, stale-while-revalidate=59';
-    }
-
     return config;
   },
   (error) => {
