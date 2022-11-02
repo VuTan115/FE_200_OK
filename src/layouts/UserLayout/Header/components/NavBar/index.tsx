@@ -81,50 +81,48 @@ export function NavBar(props: INavBarProps) {
   };
   return (
     <nav className="fixed w-full bg-white h-[var(--height-navbar)] shadow-[inset_0px_-1px_0px_#E2E2EA] px-5 z-[var(--nav-bar-zindex)] ">
-      <div className="">
-        <div className="flex w-full  justify-between items-center gap-5">
-          <div className="flex">
-            <Link href="/" legacyBehavior>
-              <div className="logo relative h-[var(--height-navbar)] w-full min-w-[165px] flex items-center align-middle justify-center gap-3">
-                <Image width={32} height={32} src={SrcIcons.iconLogo} alt="cookies" />
-                <h1 className="text-[26px] font-[500] cursor-pointer">Cookies</h1>
-              </div>
-            </Link>
-          </div>
-
-          <div className="flex w-full gap-4 my-auto flex-row justify-end items-center">
-            <div className="flex gap-6 mr-auto ml-5">
-              {menuItems.map((item) => (
-                <Link href={item.url}>
-                  <span className="text-[16px] whitespace-nowrap">{item.name}</span>
-                </Link>
-              ))}
+      <div className="flex w-full  justify-between items-center gap-5">
+        <div className="flex">
+          <Link href="/" legacyBehavior>
+            <div className="logo relative h-[var(--height-navbar)] w-full min-w-[165px] flex items-center align-middle justify-center gap-3">
+              <Image width={32} height={32} src={SrcIcons.iconLogo} alt="cookies" />
+              <h1 className="text-[26px] font-[500] cursor-pointer">Cookies</h1>
             </div>
-            <AutoComplete
-              dropdownMatchSelectWidth={252}
-              style={{ width: 300 }}
-              options={options}
-              onSelect={onSelect}
-              onSearch={handleSearch}
-            >
-              <Input
-                size="large"
-                placeholder="Tìm kiếm"
-                suffix={<SearchOutlined />}
-                className="max-w-[300px]"
-              />
-            </AutoComplete>
-            <Link href="/sign-up" legacyBehavior>
-              <Button type="primary" size="large">
-                Đăng ký
-              </Button>
-            </Link>
-            <Link href="/login" legacyBehavior>
-              <Button type="primary" size="large">
-                Đăng nhập
-              </Button>
-            </Link>
+          </Link>
+        </div>
+
+        <div className="flex w-full gap-4 my-auto flex-row justify-end items-center">
+          <div className="flex gap-6 mr-auto ml-5">
+            {menuItems.map((item) => (
+              <Link href={item.url}>
+                <span className="text-[16px] whitespace-nowrap">{item.name}</span>
+              </Link>
+            ))}
           </div>
+          <AutoComplete
+            dropdownMatchSelectWidth={252}
+            style={{ width: 300 }}
+            options={options}
+            onSelect={onSelect}
+            onSearch={handleSearch}
+          >
+            <Input
+              size="large"
+              placeholder="Tìm kiếm"
+              suffix={<SearchOutlined />}
+              className="max-w-[300px]"
+            />
+          </AutoComplete>
+          <Link href="/sign-up" legacyBehavior>
+            <Button type="primary" size="large">
+              Đăng ký
+            </Button>
+          </Link>
+          <Link href="/login" legacyBehavior>
+            <Button type="primary" size="large">
+              Đăng nhập
+            </Button>
+          </Link>
         </div>
       </div>
     </nav>
