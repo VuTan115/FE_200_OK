@@ -15,7 +15,6 @@ type Props = {
 
 const Questions = (props: Props, ref) => {
   const { questions } = props;
-  console.log(questions);
   const sliderRef = useRef<CarouselRef>();
   const [doneAnswers, setDoneAnswers] = useState<
     { answerId: number; questionId: number }[]
@@ -25,8 +24,8 @@ const Questions = (props: Props, ref) => {
   const [questionsWithIsRequiredAnswer, setQuestionsWithIsRequiredAnswer] = useState<
     Question[]
   >([]);
+
   const onChange = (answerId, item) => {
-    console.log(doneAnswers);
     // if new insert else update in doneAnswer by setDoneAnswers
     const index = doneAnswers.findIndex(
       (doneAnswer) => doneAnswer.questionId === item.id
@@ -41,7 +40,7 @@ const Questions = (props: Props, ref) => {
   const handleNextStep = () => {
     sliderRef.current.next();
     if (isDone) {
-      console.log(doneAnswers);
+      // console.log(doneAnswers);
     }
   };
   useImperativeHandle(ref, () => ({
@@ -51,8 +50,10 @@ const Questions = (props: Props, ref) => {
     isDone: () => isDone,
     currentStep: () => currentStep,
   }));
+
   const handleRandomRollAnswer = (questionId: number) => {
     const newQuest = questions.find((question) => question.id === questionId);
+    newQuest.answers = getFiveRandomAnswers(newQuest.answers);
     setQuestionsWithIsRequiredAnswer((pre) => {
       const newData = JSON.parse(JSON.stringify(pre));
       const index = newData.findIndex((item) => item.id === questionId);
@@ -71,12 +72,45 @@ const Questions = (props: Props, ref) => {
         /* deep copy questions */
 
         return newQuestions.map((item) => {
-          item.answers = item.answers.filter((answer) => answer.isRequired);
+          item.answers = getFiveRandomAnswers(item.answers);
+          // item.answers = item.answers.filter((answer) => answer.isRequired);
           return item;
         });
       });
     }
   }, [questions]);
+
+  const getFiveRandomAnswers = (answers: any) => {
+    let finalAnwers = [];
+    const requiredAnswers = answers.filter((answer) => answer.isRequired);
+    const unrequiredAnswers = answers.filter((answer) => !answer.isRequired);
+
+    if (requiredAnswers.length >= 5) {
+      finalAnwers = requiredAnswers.slice(0, 5);
+    } else {
+      const needingAnswersCount = 5 - requiredAnswers.length;
+
+      const newUnrequiredAnswers = shuffle(unrequiredAnswers);
+      console.log(newUnrequiredAnswers.slice(0, needingAnswersCount));
+      finalAnwers = [
+        ...requiredAnswers,
+        ...unrequiredAnswers.slice(0, needingAnswersCount),
+      ];
+    }
+
+    return shuffle(finalAnwers);
+  };
+
+  function shuffle(a) {
+    let j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      x = a[i];
+      a[i] = a[j];
+      a[j] = x;
+    }
+    return a;
+  }
   return (
     <div className="card mx-auto  gap-10">
       <p className="text-2xl font-bold text-center">Hôm nay ăn gì nhỉ?</p>
@@ -120,7 +154,7 @@ const Questions = (props: Props, ref) => {
                       className="flex flex-col gap-5"
                       size="large"
                     >
-                      {item.answers.map((answer) => (
+                      {item.answers?.map((answer) => (
                         <div
                           className="flex w-full relative items-center"
                           key={answer.id}
@@ -157,7 +191,7 @@ const Questions = (props: Props, ref) => {
                         handleRandomRollAnswer(item.id);
                       }}
                     >
-                      Thêm món ngẫu nhiên
+                      Thay đổi lựa chọn
                     </Button>
                   </div>
                 </div>
