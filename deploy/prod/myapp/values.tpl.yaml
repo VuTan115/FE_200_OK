@@ -40,16 +40,16 @@ healthcheck:
     httpGet:
       path: /healthz
       port: http
-    periodSeconds: 5
-    timeoutSeconds: 5
-    initialDelaySeconds: 20
+    timeoutSeconds: 10
+    periodSeconds: 11
+    initialDelaySeconds: 60
   readinessProbe:
     httpGet:
       path: /healthz
       port: http
-    timeoutSeconds: 5
-    periodSeconds: 5
-    initialDelaySeconds: 30
+    timeoutSeconds: 10
+    periodSeconds: 11
+    initialDelaySeconds: 60
 service:
   type: ClusterIP
   port: 3000

@@ -1,11 +1,10 @@
 // health check URL
-function Healthz() {
-}
+function Healthz() {}
 
 // This gets called on every request
 export async function getServerSideProps(context) {
   context.res.end('health');
-  return { props: { } }
+  return { props: {} };
 }
 
 export default Healthz;
