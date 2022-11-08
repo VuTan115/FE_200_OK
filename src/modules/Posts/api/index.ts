@@ -38,7 +38,7 @@ class PostAPI {
     return res.data;
   }
   async updatePosts(id: number, params: CreatePostPayload) {
-    const res = await axios.post(`${baseUrl}/posts/${id}`, params);
+    const res = await axios.put(`${baseUrl}/posts/${id}`, params);
     return res.data;
   }
 }
