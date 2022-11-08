@@ -18,7 +18,12 @@ module.exports = withLess({
   },
   // optimizeFonts: false,
   images: {
-    domains: ['storage.googleapis.com', 'joeschmoe.io', 'images.foody.vn'],
+    domains: [
+      'storage.googleapis.com',
+      'joeschmoe.io',
+      'images.foody.vn',
+      'foodish-api.herokuapp.com',
+    ],
     formats: ['image/avif', 'image/webp'],
   },
   experimental: { images: { layoutRaw: true }, appDir: true },

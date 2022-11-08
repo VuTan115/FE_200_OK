@@ -102,15 +102,15 @@
     padding: 10px 20px;
     background: #fff !important;
     border: 1px solid #f1f1f5 !important;
-    border-radius: 20px !important;
+    border-radius: 9px !important;
     font-family: 'Lexend Deca', sans-serif !important;
-    max-height: 400px !important;
-    min-height: 300px !important;
+    min-height: 400px !important;
   }
 
   .ck.ck-editor__main > .ck-editor__editable {
     border: none !important;
-    height: 300px !important;
+    height: 100% !important;
+    min-height: 400px !important;
     overflow-y: scroll !important;
     font-family: 'Lexend Deca', sans-serif !important;
     background: rgb(255 255 255);
@@ -158,5 +158,27 @@
   .ck.ck-content ol {
     /* Default user agent stylesheet, you can change it to your needs. */
     padding-left: 40px;
+  }
+
+  .ck.ck-content h1 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    letter-spacing: 0.8px;
+    color: #000;
+  }
+
+  .ck.ck-content h2 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 24px;
+  }
+
+  .ck.ck-content h3 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 20px;
   }
 }

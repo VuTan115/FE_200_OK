@@ -1,3 +1,4 @@
+import { Tag } from '@/modules/SugesstionRecipe/api';
 import { IUser } from './IUser';
 
 export interface IPost {
@@ -6,7 +7,10 @@ export interface IPost {
   content: string;
   isReceipe: boolean;
   author: IUser;
-  tags: string[];
+  cookTime: number;
+  upvote: number;
+  downvote: number;
+  tags: Tag[];
   createdAt: string;
   updatedAt: string;
 }

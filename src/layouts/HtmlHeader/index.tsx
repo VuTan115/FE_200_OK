@@ -24,6 +24,8 @@ const HtmlHeader: FC<IProps> = ({ title, children, keepMetaData }) => {
       <meta property="og:url" content="https://cookies.com.vn/" />
       <meta property="og:description" content="Cookies" />
       <meta property="og:type" content="website" />
+      <link rel="icon" href="/icons/cookies-active.svg" />
+
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
       <link
@@ -44,7 +46,7 @@ const HtmlHeader: FC<IProps> = ({ title, children, keepMetaData }) => {
 
       <title>{title || defaultSiteTitle}</title>
 
-      {keepMetaData && MetaData}
+      {MetaData}
 
       {/* {!isEmpty(children) && children}
 

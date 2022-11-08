@@ -1,6 +1,7 @@
 import { Avatar, Card } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import { ResponseSuggestion } from '../../api';
 
@@ -17,7 +18,7 @@ const Sugesstions = (props: Props) => {
         <Card className="w-full" loading={loading} key={item.id}>
           <div className="flex justify-between">
             <Meta
-              title={item.title}
+              title={<Link href={`bai-dang/${item.id}`}>{item.title}</Link>}
               // description only has 200 characters max length
               description={`${item.content}`.split(' ').slice(0, 20).join(' ')}
             />

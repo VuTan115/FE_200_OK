@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 import { questionAPI, ResponseQuestion, ResponseSuggestion } from '../../api';
 import Questions from '../../components/Questions';
 import Sugesstions from '../../components/Sugesstions';
-
-type Question = {
+export type Answer = { id: number; value: number; label: string; isRequired: boolean };
+export type Question = {
   id: number;
   question: string;
-  answers: [{ id: number; value: number; label: string }];
+  answers: Answer[];
 };
 
 const rawToClient = (data: ResponseQuestion[]): Question[] => {
@@ -17,7 +17,12 @@ const rawToClient = (data: ResponseQuestion[]): Question[] => {
       ({
         id: item.id,
         question: item.content,
-        answers: item.tags.map((tag) => ({ id: tag.id, value: tag.id, label: tag.name })),
+        answers: item.tags.map((tag) => ({
+          id: tag.id,
+          value: tag.id,
+          label: tag.name,
+          isRequired: tag.is_required,
+        })),
       } as Question)
   );
 };
@@ -100,7 +105,6 @@ const CreateSugesstionModule = () => {
       appLibrary.hideloading();
     } catch (error) {
       appLibrary.hideloading();
-
       message.error('Có lỗi xảy ra, vui lòng thử lại sau');
     }
   };
@@ -115,9 +119,11 @@ const CreateSugesstionModule = () => {
               onStepChange={setCurrentStep}
             />
             <div className="flex gap-5 mx-auto  justify-center items-center mt-5">
-              <Button type="primary" onClick={handlePrevStep}>
-                Trước đó
-              </Button>
+              {currentStep ? (
+                <Button type="primary" onClick={handlePrevStep}>
+                  Trước đó
+                </Button>
+              ) : null}
               <Button type="primary" onClick={handleNextStep}>
                 {currentStep === questions.length - 1 ? 'Gửi đáp án' : 'Tiếp theo'}
               </Button>
