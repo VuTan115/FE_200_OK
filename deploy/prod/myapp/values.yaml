@@ -97,3 +97,6 @@ sish-client:
       from:
         domain: cookie-fe
         port: 3000
+
+
+healthcheck: {}

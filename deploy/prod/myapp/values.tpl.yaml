@@ -35,7 +35,19 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-
+healthcheck:
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: http
+    periodSeconds: 5
+    initialDelaySeconds: 20
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: http
+    periodSeconds: 5
+    initialDelaySeconds: 30
 service:
   type: ClusterIP
   port: 3000
@@ -100,3 +112,5 @@ sish-client:
 
 nginx:
   enabled: ${NGINX_ENABLED}
+
+  
