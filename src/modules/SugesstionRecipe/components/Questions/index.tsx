@@ -1,28 +1,30 @@
 import SrcIcons from '@/assets/icons';
 import SrcImages from '@/assets/images';
+import { Loading } from '@nextui-org/react';
 import { Button, Carousel, Radio } from 'antd';
 import { CarouselRef } from 'antd/lib/carousel';
 import clsx from 'clsx';
 import Image from 'next/image';
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { Answer, Question } from '../../pages/Create';
 
 type Props = {
-  questions: {
-    id: number;
-    question: string;
-    answers: { id: number; value: number; label: string }[];
-  }[];
+  questions: Question[];
   onStepChange: (step: number) => void;
 };
 
 const Questions = (props: Props, ref) => {
+  const { questions } = props;
+  console.log(questions);
   const sliderRef = useRef<CarouselRef>();
   const [doneAnswers, setDoneAnswers] = useState<
     { answerId: number; questionId: number }[]
   >([]);
   const [isDone, setIsDone] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const { questions } = props;
+  const [questionsWithIsRequiredAnswer, setQuestionsWithIsRequiredAnswer] = useState<
+    Question[]
+  >([]);
   const onChange = (answerId, item) => {
     console.log(doneAnswers);
     // if new insert else update in doneAnswer by setDoneAnswers
@@ -49,7 +51,32 @@ const Questions = (props: Props, ref) => {
     isDone: () => isDone,
     currentStep: () => currentStep,
   }));
+  const handleRandomRollAnswer = (questionId: number) => {
+    const newQuest = questions.find((question) => question.id === questionId);
+    setQuestionsWithIsRequiredAnswer((pre) => {
+      const newData = JSON.parse(JSON.stringify(pre));
+      const index = newData.findIndex((item) => item.id === questionId);
+      if (index === -1) {
+        newData.push(newQuest);
+      } else {
+        newData[index] = newQuest;
+      }
+      return newData;
+    });
+  };
+  useEffect(() => {
+    if (questions.length > 0) {
+      setQuestionsWithIsRequiredAnswer((pre) => {
+        const newQuestions = JSON.parse(JSON.stringify(questions));
+        /* deep copy questions */
 
+        return newQuestions.map((item) => {
+          item.answers = item.answers.filter((answer) => answer.isRequired);
+          return item;
+        });
+      });
+    }
+  }, [questions]);
   return (
     <div className="card mx-auto  gap-10">
       <p className="text-2xl font-bold text-center">Hôm nay ăn gì nhỉ?</p>
@@ -67,61 +94,80 @@ const Questions = (props: Props, ref) => {
               }
             }}
           >
-            {questions.map((item, index) => (
-              <div
-                key={item.id}
-                className="!flex flex-row gap-5 !flex-nowrap overflow-visible mb-5 justify-center items-center"
-              >
-                <div className="flex flex-col w-1/2 ">
-                  <p className="text-center text-[16px]">{item.question}</p>
-                  <div className=" h-full relative min-h-[350px]">
-                    {/* random image from SrcImage */}
-                    <Image
-                      fill
-                      sizes="100%"
-                      src={Object.values(SrcImages)[index + 1]}
-                      alt=""
-                    />
+            {questionsWithIsRequiredAnswer.length > 0 ? (
+              questionsWithIsRequiredAnswer.map((item, index) => (
+                <div
+                  key={item.id}
+                  className="!flex flex-row gap-5 !flex-nowrap overflow-visible mb-5 justify-center items-center"
+                >
+                  <div className="flex flex-col w-1/2 ">
+                    <p className="text-center text-[16px]">{item.question}</p>
+                    <div className=" h-full relative min-h-[350px]">
+                      {/* random image from SrcImage */}
+                      <Image
+                        fill
+                        sizes="100%"
+                        src={Object.values(SrcImages)[index + 1]}
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                  <div className="answers w-1/2 mt-5 rounded-[8px]">
+                    <Radio.Group
+                      onChange={(event) => {
+                        onChange(event.target.value, item);
+                      }}
+                      className="flex flex-col gap-5"
+                      size="large"
+                    >
+                      {item.answers.map((answer) => (
+                        <div
+                          className="flex w-full relative items-center"
+                          key={answer.id}
+                        >
+                          <Image
+                            width={26}
+                            height={26}
+                            src={SrcIcons.iconLogo}
+                            alt="cookies"
+                            // selected then  animate-pulse
+                            className={clsx(
+                              'absolute -left-[10px] z-10 ',
+                              doneAnswers.find(
+                                (doneAnswer) =>
+                                  doneAnswer.answerId === answer.id &&
+                                  doneAnswer.questionId === item.id
+                              ) && 'animate-spin'
+                            )}
+                          />
+                          <Radio.Button
+                            key={item.id}
+                            value={answer.value}
+                            className="w-full pl-[30px] !rounded-[10px] border border-solid "
+                          >
+                            {answer.label}
+                          </Radio.Button>
+                        </div>
+                      ))}
+                    </Radio.Group>
+                    <Button
+                      type="primary"
+                      className="w-full mt-5"
+                      onClick={() => {
+                        handleRandomRollAnswer(item.id);
+                      }}
+                    >
+                      Thêm món ngẫu nhiên
+                    </Button>
                   </div>
                 </div>
-                <div className="answers w-1/2 mt-5 rounded-[8px]">
-                  <Radio.Group
-                    onChange={(event) => {
-                      onChange(event.target.value, item);
-                    }}
-                    className="flex flex-col gap-5"
-                    size="large"
-                  >
-                    {item.answers.map((answer) => (
-                      <div className="flex w-full relative items-center" key={answer.id}>
-                        <Image
-                          width={26}
-                          height={26}
-                          src={SrcIcons.iconLogo}
-                          alt="cookies"
-                          // selected then  animate-pulse
-                          className={clsx(
-                            'absolute -left-[10px] z-10 ',
-                            doneAnswers.find(
-                              (doneAnswer) =>
-                                doneAnswer.answerId === answer.id &&
-                                doneAnswer.questionId === item.id
-                            ) && 'animate-spin'
-                          )}
-                        />
-                        <Radio.Button
-                          key={item.id}
-                          value={answer.value}
-                          className="w-full pl-[30px] !rounded-[10px] border border-solid "
-                        >
-                          {answer.label}
-                        </Radio.Button>
-                      </div>
-                    ))}
-                  </Radio.Group>
-                </div>
+              ))
+            ) : (
+              <div className="mx-auto !my-5 !flex justify-center items-center flex-col">
+                <Loading />
+                <span>Đang kết nối đến server...</span>
               </div>
-            ))}
+            )}
           </Carousel>
         </div>
       </div>

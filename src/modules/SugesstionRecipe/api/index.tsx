@@ -4,7 +4,11 @@ const baseUrl = process.env.NEXT_PUBLIC_APP_API_URL;
 export interface ResponseQuestion {
   id: number;
   content: string;
-  tags: Tag[];
+  tags: {
+    id: number;
+    name: string;
+    is_required: boolean;
+  }[];
 }
 
 export interface ResponseSuggestion {
@@ -30,8 +34,17 @@ export interface Author {
 export interface Tag {
   id: number;
   name: string;
+  isRequired: boolean;
 }
-
+export interface getQuestionRespose {
+  id: number;
+  content: string;
+  tags: {
+    id: number;
+    name: string;
+    is_required: boolean;
+  }[];
+}
 class QuestionAPI {
   async getQuestions(number?: number) {
     const res = await axios.get(

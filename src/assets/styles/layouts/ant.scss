@@ -1,3 +1,8 @@
+.ant-btn {
+  background-color: var(--primary-color) !important;
+  border: none !important;
+}
+
 .ant-btn-primary {
   border-radius: 8px !important;
   background-color: var(--primary-color) !important;
@@ -39,4 +44,19 @@
 
 .ant-radio-button-wrapper:not(:first-child)::before {
   display: none;
+}
+
+.ant-form-item {
+  margin-bottom: 0 !important;
+}
+
+.ant-input,
+.ant-input-number,
+.ant-select-selector {
+  border-radius: 9px !important;
+  overflow: hidden !important;
+}
+
+.ant-card-meta-detail {
+  width: 100% !important;
 }

@@ -3,14 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  button,
-  [type='button'],
-  [type='reset'],
-  [type='submit'] {
-    background-color: var(--primary-color) !important;
-    border: none;
-  }
-
   :root {
     --body-zoom-factor: 0.85;
     --line-height-title: 39px;

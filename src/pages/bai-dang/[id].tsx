@@ -3,32 +3,30 @@ import { postAPI } from '@/modules/Posts/api';
 import { IPost } from '@/interfaces/models/IPost';
 import PostDetailModule from '@/modules/Posts/pages/Detail';
 import React from 'react';
-import PostListModule from '@/modules/Posts/pages/AllPosts';
 import { rawToIPost } from '..';
 
 type Props = {
-  posts: IPost[];
+  post: IPost;
 };
 
-const PostsPage = (props: Props) => {
-  const { posts } = props;
+const PostDetailPage = (props: Props) => {
+  const { post } = props;
   return (
     <div>
-      <PostListModule posts={posts ?? []} />
+      <PostDetailModule post={post} />
     </div>
   );
 };
 
-export default PostsPage;
+export default PostDetailPage;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
-    const {
-      data: { posts },
-    } = await postAPI.getPosts(); // your fetch function here
-    console.log(posts);
+    const { id } = ctx.params;
+    const { data } = await postAPI.getPostById(Number(id));
+    console.log(data);
     return {
-      props: { posts: posts.map((item) => rawToIPost(item)) },
+      props: { post: rawToIPost(data) },
     };
   } catch (error) {
     console.log(error);

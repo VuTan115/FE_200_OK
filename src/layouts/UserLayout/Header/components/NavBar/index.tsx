@@ -1,19 +1,28 @@
+import { useSelectedLayoutSegment } from 'next/navigation';
 import SrcIcons from '@/assets/icons';
-import SrcImages from '@/assets/images';
 import { SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Button, Input } from 'antd';
 import type { SelectProps } from 'antd/es/select';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import clsx from 'clsx';
 export interface INavBarProps {
   data?: 'TODO:Change me';
 }
 const menuItems = [
   {
-    name: 'Bài đăng',
+    name: 'Viết bài',
     hideOnMobile: true,
-    url: '#',
+    url: '/tao-bai-viet',
+    iconUrl: '',
+    yieldName: '',
+  },
+  {
+    name: 'Bài đăng mới nhất',
+    hideOnMobile: true,
+    url: '/bai-dang',
     iconUrl: '',
     yieldName: '',
   },
@@ -27,12 +36,20 @@ const menuItems = [
   {
     name: 'Gợi ý',
     hideOnMobile: true,
-    url: 'goi-y',
+    url: '/goi-y',
     iconUrl: '',
     yieldName: '',
   },
   {
     name: 'Tag',
+    hideOnMobile: true,
+    url: '#',
+    iconUrl: '',
+    yieldName: '',
+  },
+
+  {
+    name: 'Bài đã lưu',
     hideOnMobile: true,
     url: '#',
     iconUrl: '',
@@ -52,6 +69,7 @@ const searchResult = (query: string) =>
         value: category,
         label: (
           <div
+            key={category}
             style={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -71,13 +89,22 @@ const searchResult = (query: string) =>
 
 export function NavBar(props: INavBarProps) {
   const [options, setOptions] = useState<SelectProps<object>['options']>([]);
-
+  const router = useRouter();
   const handleSearch = (value: string) => {
     setOptions(value ? searchResult(value) : []);
   };
-
   const onSelect = (value: string) => {
     console.log('onSelect', value);
+  };
+  const activeClassName = (path) => {
+    const currentPath = router.pathname;
+    if (path.includes('http')) {
+      return;
+    }
+    console.log(currentPath);
+    if (currentPath.split('/')[1] === path.split('/')[1]) {
+      return 'active';
+    }
   };
   return (
     <nav className="fixed w-full bg-white h-[var(--height-navbar)] shadow-[inset_0px_-1px_0px_#E2E2EA] px-5 z-[var(--nav-bar-zindex)] ">
@@ -95,7 +122,14 @@ export function NavBar(props: INavBarProps) {
           <div className="flex gap-6 mr-auto ml-5">
             {menuItems.map((item) => (
               <Link href={item.url}>
-                <span className="text-[16px] whitespace-nowrap">{item.name}</span>
+                <span
+                  className={clsx(
+                    'text-[16px] whitespace-nowrap',
+                    activeClassName(item.url) === 'active' && 'text-[#ffbc58]'
+                  )}
+                >
+                  {item.name}
+                </span>
               </Link>
             ))}
           </div>
