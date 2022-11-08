@@ -26,13 +26,13 @@ const menuItems = [
     iconUrl: '',
     yieldName: '',
   },
-  {
-    name: 'Đang theo dõi',
-    hideOnMobile: true,
-    url: '#',
-    iconUrl: '',
-    yieldName: '',
-  },
+  // {
+  //   name: 'Đang theo dõi',
+  //   hideOnMobile: true,
+  //   url: '#',
+  //   iconUrl: '',
+  //   yieldName: '',
+  // },
   {
     name: 'Gợi ý',
     hideOnMobile: true,
@@ -41,20 +41,27 @@ const menuItems = [
     yieldName: '',
   },
   {
-    name: 'Tag',
+    name: 'Các bài đã viết',
     hideOnMobile: true,
-    url: '#',
+    url: '/bai-viet-cua-toi',
     iconUrl: '',
     yieldName: '',
   },
+  // {
+  //   name: 'Tag',
+  //   hideOnMobile: true,
+  //   url: '#',
+  //   iconUrl: '',
+  //   yieldName: '',
+  // },
 
-  {
-    name: 'Bài đã lưu',
-    hideOnMobile: true,
-    url: '#',
-    iconUrl: '',
-    yieldName: '',
-  },
+  // {
+  //   name: 'Bài đã lưu',
+  //   hideOnMobile: true,
+  //   url: '#',
+  //   iconUrl: '',
+  //   yieldName: '',
+  // },
 ];
 const getRandomInt = (max: number, min = 0) =>
   Math.floor(Math.random() * (max - min + 1)) + min;

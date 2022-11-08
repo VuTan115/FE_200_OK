@@ -6,6 +6,7 @@ import {
   CommentOutlined,
   DownCircleOutlined,
   DownCircleTwoTone,
+  EditOutlined,
   EllipsisOutlined,
   ShareAltOutlined,
   UpCircleOutlined,
@@ -13,6 +14,7 @@ import {
 } from '@ant-design/icons';
 import { Avatar, Card, Rate, Skeleton, Tooltip } from 'antd';
 import Meta from 'antd/lib/card/Meta';
+import Link from 'next/link';
 import React, { createElement, useEffect, useState } from 'react';
 export const caculateRate = (upvote: number, downvote: number) => {
   if (upvote === 0 && downvote === 0) {
@@ -85,14 +87,24 @@ const PostContent = (props: { post: IPost }) => {
         />
         <div>
           {/* caculate percent of upvode and downvote */}
-          {currentRate}/5.0 &nbsp;
-          <Rate
-            disabled
-            allowHalf
-            defaultValue={Number(currentRate)}
-            className="text-[var(--primary-color)]"
-            character={({ index }: { index: number }) => customIcons[index + 1]}
-          />
+
+          <div className="flex flex-col justify-end items-end">
+            <Tooltip key="comment-basic-like" title="Chỉnh sửa bài viết">
+              <Link href={`/bai-dang/chinh-sua/${post.id}`}>
+                <EditOutlined size={32} />
+              </Link>
+            </Tooltip>
+            <div>
+              {currentRate}/5.0 &nbsp;
+              <Rate
+                disabled
+                allowHalf
+                defaultValue={Number(currentRate)}
+                className="text-[var(--primary-color)]"
+                character={({ index }: { index: number }) => customIcons[index + 1]}
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div className="post-content">
@@ -100,7 +112,7 @@ const PostContent = (props: { post: IPost }) => {
           <h1 className="text-2xl font-bold">{post.title}</h1>
         </div>
         <div className="content">
-          <p>{post.content}</p>
+          <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
         </div>
       </div>
     </>

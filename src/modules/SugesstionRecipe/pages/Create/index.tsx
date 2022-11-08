@@ -57,7 +57,7 @@ const CreateSugesstionModule = () => {
   };
   const handleNextStep = () => {
     if (questionRef.current) {
-      questionRef.current.next();
+      validateBeforeMove2NextQuestion() && questionRef.current.next();
     }
     if (currentStep === questions.length - 1) {
       const data = questionRef.current.getAnswers();
@@ -74,6 +74,24 @@ const CreateSugesstionModule = () => {
       }
       onSubmitAnswers();
     }
+  };
+
+  const validateBeforeMove2NextQuestion = () => {
+    const answers = questionRef.current.getAnswers();
+    if (answers.length === 0) {
+      message.warning('Bạn chưa trả lời câu hỏi này');
+      return false;
+    }
+    // check if current question is not answer then return false and show message
+    const currentQuestion = questions[currentStep];
+    // check if current question have been answered then return true
+    const currentAnswer = answers.find((item) => item.questionId === currentQuestion.id);
+    console.log(currentAnswer);
+    if (!currentAnswer) {
+      message.warning('Bạn chưa trả lời câu hỏi này');
+      return false;
+    }
+    return true;
   };
   const onSubmitAnswers = () => {
     try {

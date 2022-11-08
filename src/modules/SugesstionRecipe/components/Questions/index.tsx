@@ -154,7 +154,7 @@ const Questions = (props: Props, ref) => {
                       className="flex flex-col gap-5"
                       size="large"
                     >
-                      {item.answers?.map((answer) => (
+                      {item.answers.slice(0, 5).map((answer) => (
                         <div
                           className="flex w-full relative items-center"
                           key={answer.id}
