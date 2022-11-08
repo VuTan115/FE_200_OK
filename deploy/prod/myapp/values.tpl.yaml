@@ -41,11 +41,13 @@ healthcheck:
       path: /healthz
       port: http
     periodSeconds: 5
+    timeoutSeconds: 5
     initialDelaySeconds: 20
   readinessProbe:
     httpGet:
       path: /healthz
       port: http
+    timeoutSeconds: 5
     periodSeconds: 5
     initialDelaySeconds: 30
 service:
