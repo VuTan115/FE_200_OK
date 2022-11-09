@@ -76,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
     const {
       data: { posts },
-    } = await postAPI.getPosts();
+    } = await postAPI.getPosts({ isSSR: true });
     console.log(posts);
     return {
       props: {

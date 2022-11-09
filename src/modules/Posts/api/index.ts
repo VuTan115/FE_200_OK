@@ -2,6 +2,8 @@ import { Author, Tag } from '@/modules/SugesstionRecipe/api';
 import axios from 'axios';
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_API_URL;
+const privateUrl = process.env.NEXT_PRIVATE_APP_API_URL ?? baseUrl;
+
 export type CreatePostPayload = {
   title: string;
   content: string;
@@ -24,13 +26,15 @@ export interface ResponsePost {
 }
 
 class PostAPI {
-  async getPostById(id: number) {
-    const res = await axios.get(`${baseUrl}/post-by-id?id=${id}`);
+  async getPostById(id: number, options?: { isSSR?: boolean }) {
+    const res = await axios.get(
+      `${options?.isSSR ? privateUrl : baseUrl}/post-by-id?id=${id}`
+    );
     return res.data;
   }
 
-  async getPosts() {
-    const res = await axios.get(`${baseUrl}/posts`);
+  async getPosts(options?: { isSSR?: boolean }) {
+    const res = await axios.get(`${options?.isSSR ? privateUrl : baseUrl}/posts`);
     return res.data;
   }
   async createPosts(params: CreatePostPayload) {
