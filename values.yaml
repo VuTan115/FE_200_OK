@@ -1,0 +1,103 @@
+affinity: {}
+autoscaling:
+  enabled: false
+  maxReplicas: 100
+  minReplicas: 1
+  targetCPUUtilizationPercentage: 80
+fullnameOverride: ""
+healthcheck:
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: http
+    initialDelaySeconds: 60
+    periodSeconds: 11
+    timeoutSeconds: 10
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: http
+    initialDelaySeconds: 60
+    periodSeconds: 11
+    timeoutSeconds: 10
+image:
+  pullPolicy: IfNotPresent
+  repository: aqaurius6666/cookie-fe
+  tag: 526a4fb4
+imagePullSecrets: []
+ingress:
+  annotations: {}
+  className: ""
+  enabled: false
+  hosts:
+  - host: chart-example.local
+    paths:
+    - path: /
+      pathType: ImplementationSpecific
+  tls: []
+nameOverride: ""
+nginx:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  serverBlock: |
+    server {
+      listen 8080;
+      resolver kube-dns.kube-system valid=10s;
+      server_name cookie.aqaurius6666.space;
+      proxy_read_timeout 300;
+      location ~ ^\/api\/(.*)$  {
+          proxy_set_header Host $http_host;
+          proxy_pass         http://cookie-be:3000;
+          proxy_redirect     off;
+          proxy_set_header   Host $host;
+        }
+      location ~ ^/(?!api) {
+        proxy_set_header Host $http_host;
+        proxy_pass http://cookie-fe:3000;
+      }
+    }
+  service:
+    ports:
+      http: 8080
+    type: ClusterIP
+nodeSelector: {}
+podAnnotations: {}
+podSecurityContext: {}
+replicaCount: 1
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+securityContext: {}
+service:
+  port: 3000
+  type: ClusterIP
+serviceAccount:
+  annotations: {}
+  create: true
+  name: ""
+sish-client:
+  dns_resolver:
+    enabled: false
+  enabled: true
+  service:
+    name: nginx-ssh-tunnel
+  services:
+    sish:
+      domain: 10.10.10.11
+      from:
+        domain: cookie-fe-nginx
+        port: 8080
+      port: 22222
+      request:
+        domain: cookie
+        port: 80
+tolerations: []
