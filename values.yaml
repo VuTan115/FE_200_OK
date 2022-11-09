@@ -1,3 +1,4 @@
+USER-SUPPLIED VALUES:
 affinity: {}
 autoscaling:
   enabled: false
@@ -10,20 +11,20 @@ healthcheck:
     httpGet:
       path: /healthz
       port: http
-    initialDelaySeconds: 60
-    periodSeconds: 11
-    timeoutSeconds: 10
+    initialDelaySeconds: 30
+    periodSeconds: 6
+    timeoutSeconds: 5
   readinessProbe:
     httpGet:
       path: /healthz
       port: http
-    initialDelaySeconds: 60
-    periodSeconds: 11
-    timeoutSeconds: 10
+    initialDelaySeconds: 30
+    periodSeconds: 6
+    timeoutSeconds: 5
 image:
   pullPolicy: IfNotPresent
   repository: aqaurius6666/cookie-fe
-  tag: 526a4fb4
+  tag: 1166b75f
 imagePullSecrets: []
 ingress:
   annotations: {}
@@ -45,19 +46,27 @@ nginx:
       cpu: 100m
       memory: 128Mi
   serverBlock: |
+    proxy_cache_path /app levels=1:2 keys_zone=STATIC:10m inactive=5m use_temp_path=off;
     server {
       listen 8080;
       resolver kube-dns.kube-system valid=10s;
       server_name cookie.aqaurius6666.space;
-      proxy_read_timeout 300;
+      
+
       location ~ ^\/api\/(.*)$  {
           proxy_set_header Host $http_host;
           proxy_pass         http://cookie-be:3000;
           proxy_redirect     off;
           proxy_set_header   Host $host;
         }
+      location /_next/static {
+        proxy_cache STATIC;
+        proxy_pass http://cookie-fe:3000;
+        add_header X-Cache-Status $upstream_cache_status;
+      }
       location ~ ^/(?!api) {
         proxy_set_header Host $http_host;
+
         proxy_pass http://cookie-fe:3000;
       }
     }
@@ -71,10 +80,10 @@ podSecurityContext: {}
 replicaCount: 1
 resources:
   limits:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 700m
+    memory: 400Mi
   requests:
-    cpu: 100m
+    cpu: 500m
     memory: 128Mi
 securityContext: {}
 service:
