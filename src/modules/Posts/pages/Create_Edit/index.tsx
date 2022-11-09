@@ -1,3 +1,4 @@
+import { isObject } from 'lodash-es';
 import { message } from 'antd';
 import { getQuestionRespose, questionAPI } from '@/modules/SugesstionRecipe/api';
 import { appLibrary } from '@/shared/utils/loading';
@@ -25,12 +26,7 @@ const Editor = dynamic(() => import('@/components/Editor'), {
 });
 type Props = {
   post?: IPost;
-  tags?: {
-    id: number;
-    name: string;
-    is_required: boolean;
-    questions: { id: number; content: string }[];
-  }[];
+  tags?: getQuestionRespose[];
 };
 
 const CreateEditPostModule = (props: Props) => {
@@ -39,13 +35,26 @@ const CreateEditPostModule = (props: Props) => {
     const { data } = await questionAPI.getQuestions(5);
     return data;
   };
+  console.log(props.tags);
   const [tagCard, setTagCard] = useState<getQuestionRespose[]>([]);
   const { post } = props;
   const [form] = Form.useForm();
   useEffect(() => {
     if (post) {
-      console.log(post);
       form.setFieldsValue(post);
+      props.tags &&
+        props.tags.forEach((question, index) => {
+          form.setFields([
+            {
+              name: [CreatePostPayloadEnum.tagIds, index],
+              value: question.tags.map((item) => ({
+                id: item.id,
+                name: item.name,
+                value: item.id,
+              })),
+            },
+          ]);
+        });
     }
   }, [post]);
   useEffect(() => {
@@ -55,7 +64,6 @@ const CreateEditPostModule = (props: Props) => {
   }, []);
 
   const handleCreatePost = (values) => {
-    console.log(values.tagIds.flat());
     onCreatePost({
       title: values.title,
       content: values.content,
@@ -78,15 +86,43 @@ const CreateEditPostModule = (props: Props) => {
       return message.error(messFromSV);
       return;
     } catch (error) {
-      console.log(error);
       appLibrary.hideloading();
 
       message.error('Có lỗi xảy ra, vui lòng thử lại sau');
     }
   };
+
+  const handleUpdatePost = (values) => {
+    onUpdatePost(post.id, {
+      title: values.title,
+      content: values.content,
+      isReceipe: values.isReceipe,
+      tagIds: values.tagIds.flat().map((item) => (isObject(item) ? item.id : item)), // shit code but busy now
+      cookTime: values.cookTime,
+    });
+  };
+
+  const onUpdatePost = async (id: number, params: CreatePostPayload) => {
+    try {
+      appLibrary.showloading();
+      const { data, status, message: messFromSV } = await postAPI.updatePosts(id, params);
+      appLibrary.hideloading();
+      if (status === 200) {
+        message.success('Chỉnh sửa bài viết thành công');
+        return;
+      }
+      return message.error(messFromSV);
+      return;
+    } catch (error) {
+      appLibrary.hideloading();
+
+      message.error('Có lỗi xảy ra, vui lòng thử lại sau');
+    }
+  };
+
   return (
     <>
-      <Form onFinish={handleCreatePost} form={form}>
+      <Form onFinish={isEditMode ? handleUpdatePost : handleCreatePost} form={form}>
         <div className="flex justify-between">
           <h1 className="text-heading-2">Tạo bài đăng mới</h1>
           <div>

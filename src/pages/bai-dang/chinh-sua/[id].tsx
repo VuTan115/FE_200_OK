@@ -9,12 +9,7 @@ import { getQuestionRespose } from '@/modules/SugesstionRecipe/api';
 
 type Props = {
   post: IPost;
-  tags?: {
-    id: number;
-    name: string;
-    is_required: boolean;
-    questions: { id: number; content: string }[];
-  }[];
+  tags?: getQuestionRespose[];
 };
 
 const EditPostPage = (props: Props) => {
@@ -22,38 +17,20 @@ const EditPostPage = (props: Props) => {
   console.log(tags);
   return (
     <>
-      <CreateEditPostModule post={post} />
+      <CreateEditPostModule post={post} tags={tags} />
     </>
   );
 };
 
 export default EditPostPage;
 
-const mapToRequiredTags = (
-  tags: {
-    id: number;
-    name: string;
-    is_required: boolean;
-    questions: { id: number; content: string }[];
-  }[]
-): getQuestionRespose[] => {
-  // const requiredTags: getQuestionRespose[] = tags.map((tag) => {
-  //   return {
-  //     id: tag.id,
-  //     content: tag.name,
-  //     // tags: tag.questions,
-  //   };
-  // });
-
-  return [];
-};
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
     const { id } = ctx.params;
     const { data } = await postAPI.getPostById(Number(id));
-    console.log(data.tags[0]);
+    console.log(data);
     return {
-      props: { post: rawToIPost(data), tags: data.tags },
+      props: { post: rawToIPost(data), tags: data.questions },
     };
   } catch (error) {
     console.log(error);

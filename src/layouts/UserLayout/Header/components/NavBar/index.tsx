@@ -40,13 +40,13 @@ const menuItems = [
     iconUrl: '',
     yieldName: '',
   },
-  {
-    name: 'Các bài đã viết',
-    hideOnMobile: true,
-    url: '/bai-viet-cua-toi',
-    iconUrl: '',
-    yieldName: '',
-  },
+  // {
+  //   name: 'Các bài đã viết',
+  //   hideOnMobile: true,
+  //   url: '/bai-viet-cua-toi',
+  //   iconUrl: '',
+  //   yieldName: '',
+  // },
   // {
   //   name: 'Tag',
   //   hideOnMobile: true,
