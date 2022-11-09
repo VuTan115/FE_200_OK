@@ -17,7 +17,6 @@ type Props = {
 const MediumPostCard = (props: Props) => {
   const { post } = props;
   const [show, setShow] = useState(false);
-  console.log(post);
   const [image, setImage] = useState(SrcIcons.iconLogo);
   useEffect(() => {
     image === SrcIcons.iconLogo &&
@@ -65,7 +64,7 @@ const MediumPostCard = (props: Props) => {
             </Link>
           }
         >
-          <div className="flex justify-between items-start w-full">
+          <div className="flex justify-between items-start w-full h-[130px]">
             <Meta
               className="w-full"
               avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}

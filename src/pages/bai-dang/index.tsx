@@ -26,7 +26,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const {
       data: { posts },
     } = await postAPI.getPosts({ isSSR: true }); // your fetch function here
-    console.log(posts);
     return {
       props: { posts: posts.map((item) => rawToIPost(item)) },
     };
