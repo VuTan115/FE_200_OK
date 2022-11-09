@@ -78,7 +78,13 @@ const MediumPostCard = (props: Props) => {
                   </p>
                 </div>
               }
-              description={post.content.split(' ').slice(0, 5).join(' ').concat('...')}
+              description={
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: post.content.split(' ').slice(0, 5).join(' ').concat('...'),
+                  }}
+                ></div>
+              }
             />
           </div>
         </Card>

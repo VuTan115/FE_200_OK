@@ -20,7 +20,13 @@ const Sugesstions = (props: Props) => {
             <Meta
               title={<Link href={`bai-dang/${item.id}`}>{item.title}</Link>}
               // description only has 200 characters max length
-              description={`${item.content}`.split(' ').slice(0, 20).join(' ')}
+              description={
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: item.content.split(' ').slice(0, 20).join(' '),
+                  }}
+                ></div>
+              }
             />
             <div className="relative h-[60px] w-[60px]">
               <Image

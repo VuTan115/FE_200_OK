@@ -6,6 +6,7 @@ import { Button, Form, Input, InputNumber, Radio, Select } from 'antd';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import { CreatePostPayload, postAPI } from '../../api';
+import { IPost } from '@/interfaces/models/IPost';
 export enum CreatePostPayloadEnum {
   title = 'title',
   content = 'content',
@@ -23,25 +24,33 @@ const Editor = dynamic(() => import('@/components/Editor'), {
   ),
 });
 type Props = {
-  data?: CreatePostPayloadEnum;
+  post?: IPost;
+  tags?: {
+    id: number;
+    name: string;
+    is_required: boolean;
+    questions: { id: number; content: string }[];
+  }[];
 };
 
 const CreateEditPostModule = (props: Props) => {
+  const isEditMode = props.post ? true : false;
   const getTags = async () => {
     const { data } = await questionAPI.getQuestions(5);
     return data;
   };
-  const [tags, setTags] = useState<getQuestionRespose[]>([]);
-  const { data } = props;
+  const [tagCard, setTagCard] = useState<getQuestionRespose[]>([]);
+  const { post } = props;
   const [form] = Form.useForm();
   useEffect(() => {
-    if (data) {
-      form.setFieldsValue(data);
+    if (post) {
+      console.log(post);
+      form.setFieldsValue(post);
     }
-  }, [data]);
+  }, [post]);
   useEffect(() => {
     getTags().then((res) => {
-      setTags(res);
+      setTagCard(res);
     });
   }, []);
 
@@ -124,7 +133,7 @@ const CreateEditPostModule = (props: Props) => {
                 },
               ]}
             >
-              <Editor onChange={(value) => {}} />
+              <Editor defaultValue={post?.content ?? ''} onChange={(value) => {}} />
             </Form.Item>
           </div>
           <div className="left-side flex flex-col gap-4  w-1/3">
@@ -150,8 +159,8 @@ const CreateEditPostModule = (props: Props) => {
             </div>
             <span className="font-[500] text-[20px]">Các tag</span>
 
-            {tags.length > 0 &&
-              tags.map((item, index) => (
+            {tagCard.length > 0 &&
+              tagCard.map((item, index) => (
                 <div className=" flex gap-5 items-center mb-5" key={item.id}>
                   <span className="min-w-[120px]"> {item.content}?</span>
                   <Form.Item
