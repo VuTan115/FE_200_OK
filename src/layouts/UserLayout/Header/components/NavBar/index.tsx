@@ -20,7 +20,7 @@ const menuItems = [
     yieldName: '',
   },
   {
-    name: 'Bài đăng mới nhất',
+    name: 'Bài đã đăng',
     hideOnMobile: true,
     url: '/bai-dang',
     iconUrl: '',

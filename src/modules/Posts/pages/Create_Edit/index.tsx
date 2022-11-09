@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import { CreatePostPayload, postAPI } from '../../api';
 import { IPost } from '@/interfaces/models/IPost';
+import { useRouter } from 'next/router';
 export enum CreatePostPayloadEnum {
   title = 'title',
   content = 'content',
@@ -31,14 +32,15 @@ type Props = {
 
 const CreateEditPostModule = (props: Props) => {
   const isEditMode = props.post ? true : false;
+  const router = useRouter();
   const getTags = async () => {
     const { data } = await questionAPI.getQuestions(5);
     return data;
   };
-  console.log(props.tags);
   const [tagCard, setTagCard] = useState<getQuestionRespose[]>([]);
   const { post } = props;
   const [form] = Form.useForm();
+  const [isReceipe, setIsRecipe] = useState(true);
   useEffect(() => {
     if (post) {
       form.setFieldsValue(post);
@@ -81,13 +83,13 @@ const CreateEditPostModule = (props: Props) => {
       if (status === 200) {
         message.success('Tạo bài viết thành công');
         form.resetFields();
+        router.push(`/bai-dang/${data.id}`);
         return;
       }
       return message.error(messFromSV);
       return;
     } catch (error) {
       appLibrary.hideloading();
-
       message.error('Có lỗi xảy ra, vui lòng thử lại sau');
     }
   };
@@ -109,6 +111,7 @@ const CreateEditPostModule = (props: Props) => {
       appLibrary.hideloading();
       if (status === 200) {
         message.success('Chỉnh sửa bài viết thành công');
+        router.push(`/bai-dang/${id}`);
         return;
       }
       return message.error(messFromSV);

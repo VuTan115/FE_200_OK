@@ -52,10 +52,15 @@ const Questions = (props: Props, ref) => {
   }));
 
   const handleRandomRollAnswer = (questionId: number) => {
-    const newQuest = questions.find((question) => question.id === questionId);
+    let newQuest = questions.find((question) => question.id === questionId);
+    newQuest = JSON.parse(JSON.stringify(newQuest));
+    // Shallow copy causes the props questions to be changed
+    // answers will be sliced to 5 ones only
+
     newQuest.answers = getFiveRandomAnswers(newQuest.answers);
     setQuestionsWithIsRequiredAnswer((pre) => {
-      const newData = JSON.parse(JSON.stringify(pre));
+      // const newData = JSON.parse(JSON.stringify(pre));
+      const newData = [...pre];
       const index = newData.findIndex((item) => item.id === questionId);
       if (index === -1) {
         newData.push(newQuest);
@@ -67,13 +72,12 @@ const Questions = (props: Props, ref) => {
   };
   useEffect(() => {
     if (questions.length > 0) {
-      setQuestionsWithIsRequiredAnswer((pre) => {
+      setQuestionsWithIsRequiredAnswer(() => {
         const newQuestions = JSON.parse(JSON.stringify(questions));
         /* deep copy questions */
 
         return newQuestions.map((item) => {
           item.answers = getFiveRandomAnswers(item.answers);
-          // item.answers = item.answers.filter((answer) => answer.isRequired);
           return item;
         });
       });
@@ -91,13 +95,11 @@ const Questions = (props: Props, ref) => {
       const needingAnswersCount = 5 - requiredAnswers.length;
 
       const newUnrequiredAnswers = shuffle(unrequiredAnswers);
-      console.log(newUnrequiredAnswers.slice(0, needingAnswersCount));
       finalAnwers = [
         ...requiredAnswers,
-        ...unrequiredAnswers.slice(0, needingAnswersCount),
+        ...newUnrequiredAnswers.slice(0, needingAnswersCount),
       ];
     }
-
     return shuffle(finalAnwers);
   };
 
@@ -191,7 +193,7 @@ const Questions = (props: Props, ref) => {
                         handleRandomRollAnswer(item.id);
                       }}
                     >
-                      Thay đổi lựa chọn
+                      Làm mới lựa chọn
                     </Button>
                   </div>
                 </div>
