@@ -40,9 +40,10 @@ const CreateEditPostModule = (props: Props) => {
   const [tagCard, setTagCard] = useState<getQuestionRespose[]>([]);
   const { post } = props;
   const [form] = Form.useForm();
-  const [isReceipe, setIsRecipe] = useState(true);
+  const [isReceipe, setIsRecipe] = useState(false);
   useEffect(() => {
     if (post) {
+      setIsRecipe(post.isReceipe);
       form.setFieldsValue(post);
       props.tags &&
         props.tags.forEach((question, index) => {
@@ -129,7 +130,10 @@ const CreateEditPostModule = (props: Props) => {
         <div className="flex justify-between">
           <h1 className="text-heading-2">Tạo bài đăng mới</h1>
           <div>
-            <button className="mr-5 !border !border-solid !border-[#D2D2D2] px-[15px] py-[4px] rounded-[8px]">
+            <button
+              onClick={() => router.back()}
+              className="mr-5 !border !border-solid !border-[#D2D2D2] px-[15px] py-[4px] rounded-[8px]"
+            >
               Hủy
             </button>
             <Button type="primary" htmlType="submit">
@@ -144,9 +148,12 @@ const CreateEditPostModule = (props: Props) => {
               name={CreatePostPayloadEnum.isReceipe}
               rules={[{ required: true, message: 'Vui lòng nhập trường này!' }]}
             >
-              <Radio.Group className="flex flex-col">
-                <Radio value> Cung cấp công thức </Radio>
-                <Radio value={false}> Giới thiệu nhà hàng </Radio>
+              <Radio.Group
+                className="flex flex-col"
+                onChange={(e) => setIsRecipe(Boolean(e.target.value))}
+              >
+                <Radio value>Cung cấp công thức</Radio>
+                <Radio value={false}>Giới thiệu nhà hàng </Radio>
               </Radio.Group>
             </Form.Item>
             <span className="font-[500] text-[20px]">Tiêu đề</span>
@@ -176,28 +183,33 @@ const CreateEditPostModule = (props: Props) => {
             </Form.Item>
           </div>
           <div className="left-side flex flex-col gap-4  w-1/3">
-            <span className="font-[500] text-[20px]">Thời gian nấu</span>
+            {isReceipe && (
+              <div>
+                <span className="font-[500] text-[20px]">Thời gian nấu</span>
 
-            <div className="flex gap-5 items-center">
-              <span className="min-w-[120px]">Đơn vị: phút</span>
-              <Form.Item
-                name={CreatePostPayloadEnum.cookTime}
-                className="w-full"
-                rules={[
-                  { required: true, message: 'Vui lòng nhập trường này!' },
-                  // { max: 1000, message: 'Thời gian nấu quá lớn' },
-                ]}
-              >
-                <InputNumber
-                  size="large"
-                  placeholder="Thời gian nấu ăn"
-                  className="w-full"
-                  min={2}
-                />
-              </Form.Item>
-            </div>
+                <div className="flex gap-5 items-center">
+                  <span className="min-w-[120px]">Đơn vị: phút</span>
+                  <Form.Item
+                    name={CreatePostPayloadEnum.cookTime}
+                    className="w-full"
+                    rules={[
+                      { required: true, message: 'Vui lòng nhập trường này!' },
+                      // { max: 1000, message: 'Thời gian nấu quá lớn' },
+                    ]}
+                  >
+                    <InputNumber
+                      size="large"
+                      placeholder="Thời gian nấu ăn"
+                      className="w-full"
+                      min={2}
+                      max={1000000}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
+            )}
+
             <span className="font-[500] text-[20px]">Các tag</span>
-
             {tagCard.length > 0 &&
               tagCard.map((item, index) => (
                 <div className=" flex gap-5 items-center mb-5" key={item.id}>

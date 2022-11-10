@@ -12,9 +12,11 @@ export function UserLayout(props: IAppLayoutProps) {
   return (
     <>
       <Header />
-      <main id="__main" className="container">
-        {children}
-      </main>
+      <div className="mx-[32px]">
+        <main id="__main" className="container">
+          {children}
+        </main>
+      </div>
       <Footer />
     </>
   );
