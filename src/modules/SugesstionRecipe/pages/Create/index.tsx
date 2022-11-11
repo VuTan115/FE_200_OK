@@ -86,7 +86,6 @@ const CreateSugesstionModule = () => {
     const currentQuestion = questions[currentStep];
     // check if current question have been answered then return true
     const currentAnswer = answers.find((item) => item.questionId === currentQuestion.id);
-    console.log(currentAnswer);
     if (!currentAnswer) {
       message.warning('Bạn chưa trả lời câu hỏi này');
       return false;

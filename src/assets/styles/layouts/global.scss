@@ -144,3 +144,9 @@ input:focus-within {
 .card {
   @apply border border-solid border-[#E2E2EA] p-4 bg-white rounded-[8px];
 }
+
+.card-description-custom {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}

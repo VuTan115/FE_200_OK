@@ -11,6 +11,15 @@ export interface IPost {
   upvote: number;
   downvote: number;
   tags: Tag[];
+  questions?: {
+    id: number;
+    content: string;
+    tags: {
+      id: number;
+      name: string;
+      is_required: boolean;
+    }[];
+  }[];
   createdAt: string;
   updatedAt: string;
 }

@@ -3,8 +3,6 @@ import { IPost } from '@/interfaces/models/IPost';
 import { formatServerDateToDurationString } from '@/shared/helpers';
 import { Avatar, Badge, Card } from 'antd';
 import Meta from 'antd/lib/card/Meta';
-import clsx from 'clsx';
-import { formatDistance, subDays } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -32,6 +30,7 @@ const MediumPostCard = (props: Props) => {
       setShow(true);
     }, 1000);
   }, []);
+
   return (
     <div className="w-full relative">
       <Badge.Ribbon text={`${caculateRate(post.upvote, post.downvote)}/5.0`}>
@@ -50,7 +49,10 @@ const MediumPostCard = (props: Props) => {
                   blurDataURL={SrcIcons.iconLogo}
                   placeholder="blur"
                 />
-                <div className="z-10 bg-[#dedede9c] top-1/2 left-1/2 absolute -translate-x-1/2 font-semibold text-2xl whitespace-nowrap p-1">
+                <div
+                  className="z-10 bg-[#dedede9c]
+                top-1/2 left-1/2 absolute -translate-x-1/2 font-semibold text-2xl whitespace-nowrap p-1"
+                >
                   {post.title}
                 </div>
                 {/* <div className="absolute top-0 left-0 w-full h-full opacity-0 hover:opacity-100 duration-200">
@@ -79,8 +81,10 @@ const MediumPostCard = (props: Props) => {
               }
               description={
                 <div
+                  className="card-description-custom text-ellipsis overflow-hidden mb-4"
                   dangerouslySetInnerHTML={{
-                    __html: post.content.split(' ').slice(0, 5).join(' ').concat('...'),
+                    // __html: post.content.split(' ').slice(0, 5).join(' ').concat('...'),
+                    __html: post.content,
                   }}
                 ></div>
               }
