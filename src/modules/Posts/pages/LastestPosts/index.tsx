@@ -1,4 +1,5 @@
 import MediumPostCard from '@/components/PostsCard/MediumCard';
+import SmallPostCard from '@/components/PostsCard/SmallCard';
 import { IPost } from '@/interfaces/models/IPost';
 import { rawToIPost } from '@/pages';
 import { appLibrary } from '@/shared/utils/loading';
@@ -12,19 +13,20 @@ type Props = {
   pagination: TOffset;
 };
 
-const PostListModule = (props: Props) => {
+const LastesPostListModule = (props: Props) => {
   const { posts, pagination } = props;
+  const [postState, setPostState] = useState<IPost[]>(posts);
   const handlePaginationChange = (page: number, pageSize?: number) => {
     console.log(page, pageSize);
     onPaginationChange(page, pageSize);
   };
-  const [postState, setPostState] = useState<IPost[]>(posts);
+
   const onPaginationChange = async (page: number, pageSize?: number) => {
     try {
       appLibrary.showloading();
       const {
         data: { posts, pagination },
-      } = await postAPI.getPosts({ offset: page, limit: pageSize });
+      } = await postAPI.getUserPosts({ offset: page, limit: pageSize });
       const newData = posts.map((item) => rawToIPost(item));
       setPostState(newData);
       appLibrary.hideloading();
@@ -33,11 +35,12 @@ const PostListModule = (props: Props) => {
       message.error('Đã có lỗi xảy ra! Vui lòng thử lại sau');
     }
   };
+
   return (
     <>
-      <div className="grid  sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid  grid-cols-1 gap-4">
         {postState.map((post) => (
-          <MediumPostCard post={post} />
+          <SmallPostCard post={post} />
         ))}
       </div>
       <Pagination
@@ -51,4 +54,4 @@ const PostListModule = (props: Props) => {
   );
 };
 
-export default PostListModule;
+export default LastesPostListModule;

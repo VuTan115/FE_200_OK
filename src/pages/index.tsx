@@ -4,13 +4,15 @@ import { postAPI } from '@/modules/Posts/api';
 import PostListModule from '@/modules/Posts/pages/AllPosts';
 import type { NextPage } from 'next';
 import { Author } from '@/modules/SugesstionRecipe/api';
+import { TOffset } from '@/types';
 
 type Props = {
   posts: IPost[];
+  pagination: TOffset;
 };
 const Home: NextPage = (props: Props) => {
-  const { posts } = props;
-  return <>{<PostListModule posts={posts} />}</>;
+  const { posts, pagination } = props;
+  return <>{<PostListModule posts={posts} pagination={pagination} />}</>;
 };
 
 export default Home;
@@ -51,11 +53,12 @@ export const rawToIPost = (data: {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
     const {
-      data: { posts },
-    } = await postAPI.getPosts({ isSSR: true });
+      data: { posts, pagination },
+    } = await postAPI.getUserPosts({ isSSR: true });
     return {
       props: {
         posts: posts.map((item) => rawToIPost(item)),
+        pagination,
       },
     };
   } catch (error) {

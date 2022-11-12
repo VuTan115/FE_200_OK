@@ -26,13 +26,13 @@ const menuItems = [
     iconUrl: '',
     yieldName: '',
   },
-  // {
-  //   name: 'Đang theo dõi',
-  //   hideOnMobile: true,
-  //   url: '#',
-  //   iconUrl: '',
-  //   yieldName: '',
-  // },
+  {
+    name: 'Bài đăng mới nhất',
+    hideOnMobile: true,
+    url: '/bai-dang-moi-nhat',
+    iconUrl: '',
+    yieldName: '',
+  },
   {
     name: 'Gợi ý',
     hideOnMobile: true,

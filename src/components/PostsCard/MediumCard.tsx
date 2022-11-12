@@ -1,4 +1,5 @@
 import SrcIcons from '@/assets/icons';
+import SrcImages from '@/assets/images';
 import { IPost } from '@/interfaces/models/IPost';
 import { formatServerDateToDurationString } from '@/shared/helpers';
 import { Avatar, Badge, Card } from 'antd';
@@ -43,7 +44,7 @@ const MediumPostCard = (props: Props) => {
                 <Image
                   fill
                   sizes="100%"
-                  src={image}
+                  src={SrcImages.hamburger}
                   alt=""
                   loading="lazy"
                   blurDataURL={SrcIcons.iconLogo}
