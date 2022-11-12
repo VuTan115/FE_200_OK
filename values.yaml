@@ -24,7 +24,7 @@ healthcheck:
 image:
   pullPolicy: IfNotPresent
   repository: aqaurius6666/cookie-fe
-  tag: 1166b75f
+  tag: bce33d5f
 imagePullSecrets: []
 ingress:
   annotations: {}
@@ -46,7 +46,20 @@ nginx:
       cpu: 100m
       memory: 128Mi
   serverBlock: |
-    proxy_cache_path /app levels=1:2 keys_zone=STATIC:10m inactive=5m use_temp_path=off;
+    proxy_cache_path /tmp/image levels=1:2 keys_zone=image_cache:30m use_temp_path=off inactive=7d max_size=2G loader_files=100 loader_sleep=50 loader_threshold=200;
+    proxy_cache_valid 604800s; # 7 days
+    proxy_cache_lock on;
+    proxy_cache_use_stale updating;
+    proxy_buffer_size 16k;
+    proxy_buffers 16 16k;
+    proxy_buffering on;
+    proxy_http_version 1.1;
+    proxy_ignore_headers Vary;
+    proxy_ignore_headers Expires;
+    proxy_ignore_headers Set-Cookie;
+    proxy_ignore_headers Cache-Control;
+
+    proxy_cache_path /tmp/static levels=1:2 keys_zone=STATIC:10m inactive=5m use_temp_path=off;
     server {
       listen 8080;
       resolver kube-dns.kube-system valid=10s;
@@ -63,6 +76,16 @@ nginx:
         proxy_cache STATIC;
         proxy_pass http://cookie-fe:3000;
         add_header X-Cache-Status $upstream_cache_status;
+      }
+
+      location /_next/image {
+            proxy_pass http://cookie-fe:3000;
+
+            # request_uri is important because images have GET params which define quality, url and size
+            # $http_accept is important because it changes the response type of next/image
+            proxy_cache_key "$request_uri$http_accept";
+            add_header X-Cache-Status $upstream_cache_status;
+            proxy_cache image_cache;
       }
       location ~ ^/(?!api) {
         proxy_set_header Host $http_host;

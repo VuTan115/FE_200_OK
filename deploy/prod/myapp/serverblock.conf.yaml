@@ -12,6 +12,19 @@ nginx:
     ports:
       http: 8080
   serverBlock: |
+    proxy_cache_path /app/image levels=1:2 keys_zone=image_cache:30m use_temp_path=off inactive=7d max_size=2G loader_files=100 loader_sleep=50 loader_threshold=200;
+    proxy_cache_valid 604800s; # 7 days
+    proxy_cache_lock on;
+    proxy_cache_use_stale updating;
+    proxy_buffer_size 16k;
+    proxy_buffers 16 16k;
+    proxy_buffering on;
+    proxy_http_version 1.1;
+    proxy_ignore_headers Vary;
+    proxy_ignore_headers Expires;
+    proxy_ignore_headers Set-Cookie;
+    proxy_ignore_headers Cache-Control;
+
     proxy_cache_path /app levels=1:2 keys_zone=STATIC:10m inactive=5m use_temp_path=off;
     server {
       listen 8080;
@@ -29,6 +42,16 @@ nginx:
         proxy_cache STATIC;
         proxy_pass http://cookie-fe:3000;
         add_header X-Cache-Status $upstream_cache_status;
+      }
+
+      location /_next/image {
+            proxy_pass http://cookie-fe:3000;
+
+            # request_uri is important because images have GET params which define quality, url and size
+            # $http_accept is important because it changes the response type of next/image
+            proxy_cache_key "$request_uri$http_accept";
+
+            proxy_cache image_cache;
       }
       location ~ ^/(?!api) {
         proxy_set_header Host $http_host;

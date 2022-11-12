@@ -1,10 +1,10 @@
 trigger: none
 
 variables:
-  azPool: 'My linux'
-  k8sNamespace: 'cookie'
-  k8sReleaseName: 'cookie-fe'
-  k8sServiceConnection: '10.10.10.8'
+  azPool: $(AZURE_POOL)
+  k8sNamespace: $(K8S_NAMESPACE)
+  k8sReleaseName: $(K8S_RELEASE_NAME)
+  k8sServiceConnection: $(K8S_SERVICE_CONNECTION)
 
 pool: $(azPool)
 
@@ -20,9 +20,8 @@ stages:
             displayName: Setup values.yaml & .env
             inputs:
               script: |
-                  envsubst < .env.tpl > .env
-                  envsubst < values.tpl.yaml > values.yaml
-                  cat serverblock.conf.yaml >> values.yaml
+                envsubst < values.tpl.yaml > values.yaml
+                envsubst < .env.tpl > .env
               workingDirectory: $(System.DefaultWorkingDirectory)/deploy/prod/myapp
               failOnStderr: false
           - task: HelmDeploy@0
