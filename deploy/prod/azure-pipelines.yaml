@@ -9,6 +9,7 @@ variables:
 pool: $(azPool)
 
 
+
 stages:
   - stage: Deploy
     displayName: Deploy to K8S
@@ -20,8 +21,9 @@ stages:
             displayName: Setup values.yaml & .env
             inputs:
               script: |
-                envsubst < values.tpl.yaml > values.yaml
-                envsubst < .env.tpl > .env
+                  envsubst < .env.tpl > .env
+                  envsubst < values.tpl.yaml > values.yaml
+                  cat serverblock.conf.yaml >> values.yaml
               workingDirectory: $(System.DefaultWorkingDirectory)/deploy/prod/myapp
               failOnStderr: false
           - task: HelmDeploy@0
