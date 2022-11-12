@@ -12,7 +12,7 @@ nginx:
     ports:
       http: 8080
   serverBlock: |
-    proxy_cache_path /app/image levels=1:2 keys_zone=image_cache:30m use_temp_path=off inactive=7d max_size=2G loader_files=100 loader_sleep=50 loader_threshold=200;
+    proxy_cache_path /app levels=1:2 keys_zone=STATIC:30m use_temp_path=off inactive=7d max_size=2G loader_files=100 loader_sleep=50 loader_threshold=200;
     proxy_cache_valid 604800s; # 7 days
     proxy_cache_lock on;
     proxy_cache_use_stale updating;
@@ -25,7 +25,6 @@ nginx:
     proxy_ignore_headers Set-Cookie;
     proxy_ignore_headers Cache-Control;
 
-    proxy_cache_path /app levels=1:2 keys_zone=STATIC:10m inactive=5m use_temp_path=off;
     server {
       listen 8080;
       resolver kube-dns.kube-system valid=10s;
@@ -51,7 +50,7 @@ nginx:
             # $http_accept is important because it changes the response type of next/image
             proxy_cache_key "$request_uri$http_accept";
 
-            proxy_cache image_cache;
+            proxy_cache STATIC;
       }
       location ~ ^/(?!api) {
         proxy_set_header Host $http_host;
