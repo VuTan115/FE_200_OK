@@ -65,7 +65,6 @@ const ActionBuilder = () => {
 };
 const PostContent = (props: { post: IPost }) => {
   const { post } = props;
-
   const [currentRate, setCurrentRate] = useState(
     caculateRate(post.upvote, post.downvote)
   );
@@ -111,6 +110,18 @@ const PostContent = (props: { post: IPost }) => {
         <div className="title">
           <h1 className="text-2xl font-bold">{post.title}</h1>
         </div>
+        <div className="list-tags my-4">
+          {post.questions?.map((question, index) => (
+            <div key={index} className="flex items-center mb-4">
+              <h2 className="mr-4 font-bold">{question.content}</h2>
+              {question.tags?.map((tag, index) => (
+                <div key={index} className="btn-secondary mr-2">
+                  <span>{tag.name}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
         <div className="content">
           <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
         </div>
@@ -125,8 +136,6 @@ type Props = {
 
 const BigPostCard = (props: Props) => {
   const { post } = props;
-  console.log(post);
-
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {

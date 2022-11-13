@@ -8,6 +8,21 @@
   background-color: var(--primary-color) !important;
 }
 
+.ant-btn-primary:hover {
+  background-color: #d29751 !important;
+}
+
+.btn-secondary {
+  border: 1px solid #d2d2d2;
+  border-radius: 8px;
+  padding: 4px 15px;
+  color: #6c7d90;
+}
+
+.btn-secondary:hover {
+  background-color: #f0f2f3;
+}
+
 .ant-input-affix-wrapper {
   border-radius: 8px !important;
   border: 1px solid var(--border-color) !important;

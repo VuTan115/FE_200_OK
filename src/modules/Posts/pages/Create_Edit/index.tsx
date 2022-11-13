@@ -130,12 +130,7 @@ const CreateEditPostModule = (props: Props) => {
         <div className="flex justify-between">
           <h1 className="text-heading-2">Tạo bài đăng mới</h1>
           <div>
-            <button
-              onClick={() => router.back()}
-              className="mr-5 !border !border-solid !border-[#D2D2D2] px-[15px] py-[4px] rounded-[8px]"
-            >
-              Hủy
-            </button>
+            <button className="btn-secondary mr-5">Hủy</button>
             <Button type="primary" htmlType="submit">
               Lưu
             </Button>

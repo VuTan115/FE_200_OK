@@ -26,6 +26,7 @@ export const rawToIPost = (data: {
   author: Author;
   tags: { id: number; name: string; is_required: boolean }[];
   upvote: number;
+  questions: any;
   downvote: number;
 }): IPost => {
   return {
@@ -44,6 +45,7 @@ export const rawToIPost = (data: {
     upvote: data.upvote,
     updatedAt: data.updated_at,
     content: data.content,
+    questions: data.questions ?? [],
   };
 };
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

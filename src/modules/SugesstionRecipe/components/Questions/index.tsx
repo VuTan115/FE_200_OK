@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { Answer, Question } from '../../pages/Create';
+import { ReloadOutlined } from '@ant-design/icons';
 
 type Props = {
   questions: Question[];
@@ -186,15 +187,17 @@ const Questions = (props: Props, ref) => {
                         </div>
                       ))}
                     </Radio.Group>
-                    <Button
-                      type="primary"
-                      className="w-full mt-5"
+                    <button
+                      className="btn-secondary mt-5 flex items-center mx-auto"
                       onClick={() => {
                         handleRandomRollAnswer(item.id);
                       }}
                     >
+                      <div className="mr-4 flex items-center">
+                        <ReloadOutlined />
+                      </div>
                       Làm mới lựa chọn
-                    </Button>
+                    </button>
                   </div>
                 </div>
               ))
