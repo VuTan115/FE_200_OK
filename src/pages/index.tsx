@@ -26,9 +26,16 @@ export const rawToIPost = (data: {
   updated_at: '2022-11-01T23:54:15.000Z';
   cook_time: number;
   author: Author;
-  tags: { id: number; name: string; is_required: boolean }[];
+  tags: {
+    id: number;
+    name: string;
+    is_required: boolean;
+    questions: {
+      id: number;
+      content: string;
+    }[];
+  }[];
   upvote: number;
-  questions: any;
   downvote: number;
 }): IPost => {
   return {
@@ -42,12 +49,12 @@ export const rawToIPost = (data: {
       id: tag.id,
       name: tag.name,
       isRequired: tag.is_required,
+      questions: tag.questions,
     })),
     title: data.title,
     upvote: data.upvote,
     updatedAt: data.updated_at,
     content: data.content,
-    questions: data.questions ?? [],
   };
 };
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -58,6 +65,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return {
       props: {
         posts: posts.map((item) => rawToIPost(item)),
+        // posts: [],
         pagination,
       },
     };

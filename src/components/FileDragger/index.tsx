@@ -12,9 +12,7 @@ const FileDragger = (props: Props) => {
     <Dragger
       className="h-full bg-[#F1F1F5] !rounded-[10px] !border-[3px] !border-dashed border-[#D5D5DC] !overflow-hidden"
       maxCount={1}
-      onChange={(info) => {
-        console.log(info);
-      }}
+      onChange={(info) => {}}
     >
       <p className="ant-upload-drag-icon">
         {/* <Image

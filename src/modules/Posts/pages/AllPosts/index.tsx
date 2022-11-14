@@ -15,16 +15,16 @@ type Props = {
 const PostListModule = (props: Props) => {
   const { posts, pagination } = props;
   const handlePaginationChange = (page: number, pageSize?: number) => {
-    console.log(page, pageSize);
-    onPaginationChange(page, pageSize);
+    const offset = page - 1;
+    onPaginationChange(offset, pageSize);
   };
   const [postState, setPostState] = useState<IPost[]>(posts);
-  const onPaginationChange = async (page: number, pageSize?: number) => {
+  const onPaginationChange = async (offset: number, pageSize?: number) => {
     try {
       appLibrary.showloading();
       const {
         data: { posts, pagination },
-      } = await postAPI.getPosts({ offset: page, limit: pageSize });
+      } = await postAPI.getPosts({ offset: offset, limit: pageSize });
       const newData = posts.map((item) => rawToIPost(item));
       setPostState(newData);
       appLibrary.hideloading();

@@ -28,7 +28,6 @@ const PostDetailModule = (props: Props) => {
           <Meta
             avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
             title="Bánh mỳ ngon"
-            // description only has 200 characters max length
             description={''.split(' ').slice(0, 20).join(' ')}
           />
         </Card>

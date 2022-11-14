@@ -18,6 +18,10 @@ export interface IPost {
       id: number;
       name: string;
       is_required: boolean;
+      questions: {
+        id: number;
+        content: string;
+      }[];
     }[];
   }[];
   createdAt: string;

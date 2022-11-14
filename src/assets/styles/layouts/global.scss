@@ -146,7 +146,7 @@ input:focus-within {
 }
 
 .card-description-custom {
-  display: -webkit-box;
+  display: box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
 }
