@@ -3,6 +3,8 @@ import axios from 'axios';
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_API_URL;
 const privateUrl = process.env.NEXT_PRIVATE_APP_API_URL ?? baseUrl;
+const defaultLimit = 10;
+const defaultOffset = 0;
 
 export type CreatePostPayload = {
   title: string;
@@ -33,8 +35,21 @@ class PostAPI {
     return res.data;
   }
 
-  async getPosts(options?: { isSSR?: boolean }) {
-    const res = await axios.get(`${options?.isSSR ? privateUrl : baseUrl}/posts`);
+  async getPosts(options?: { isSSR?: boolean; offset?: number; limit?: number }) {
+    const res = await axios.get(
+      `${options?.isSSR ? privateUrl : baseUrl}/posts?limit=${
+        options.limit ?? defaultLimit
+      }&offset=${options.offset ?? defaultOffset}`
+    );
+    return res.data;
+  }
+
+  async getUserPosts(options?: { isSSR?: boolean; offset?: number; limit?: number }) {
+    const res = await axios.get(
+      `${options?.isSSR ? privateUrl : baseUrl}/posts/me?limit=${
+        options.limit ?? defaultLimit
+      }&offset=${options.offset ?? defaultOffset}`
+    );
     return res.data;
   }
   async createPosts(params: CreatePostPayload) {
