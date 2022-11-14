@@ -43,6 +43,10 @@ export interface getQuestionRespose {
     id: number;
     name: string;
     is_required: boolean;
+    questions: {
+      id: number;
+      content: string;
+    }[];
   }[];
 }
 class QuestionAPI {

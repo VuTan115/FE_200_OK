@@ -100,15 +100,12 @@ export function NavBar(props: INavBarProps) {
   const handleSearch = (value: string) => {
     setOptions(value ? searchResult(value) : []);
   };
-  const onSelect = (value: string) => {
-    console.log('onSelect', value);
-  };
+  const onSelect = (value: string) => {};
   const activeClassName = (path) => {
     const currentPath = router.pathname;
     if (path.includes('http')) {
       return;
     }
-    console.log(currentPath);
     if (currentPath.split('/')[1] === path.split('/')[1]) {
       return 'active';
     }

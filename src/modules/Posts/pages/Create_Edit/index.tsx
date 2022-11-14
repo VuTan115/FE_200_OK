@@ -1,14 +1,13 @@
-import { isObject } from 'lodash-es';
-import { message } from 'antd';
+import { IPost } from '@/interfaces/models/IPost';
 import { getQuestionRespose, questionAPI } from '@/modules/SugesstionRecipe/api';
 import { appLibrary } from '@/shared/utils/loading';
 import { Loading } from '@nextui-org/react';
-import { Button, Form, Input, InputNumber, Radio, Select } from 'antd';
+import { Button, Form, Input, InputNumber, message, Radio, Select } from 'antd';
+import { isObject } from 'lodash-es';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { CreatePostPayload, postAPI } from '../../api';
-import { IPost } from '@/interfaces/models/IPost';
-import { useRouter } from 'next/router';
 export enum CreatePostPayloadEnum {
   title = 'title',
   content = 'content',
@@ -38,31 +37,33 @@ const CreateEditPostModule = (props: Props) => {
     return data;
   };
   const [tagCard, setTagCard] = useState<getQuestionRespose[]>([]);
-  const { post } = props;
+  const { post, tags } = props;
   const [form] = Form.useForm();
   const [isReceipe, setIsRecipe] = useState(false);
   useEffect(() => {
     if (post) {
       setIsRecipe(post.isReceipe);
       form.setFieldsValue(post);
-      props.tags &&
-        props.tags.forEach((question, index) => {
+    }
+  }, [post]);
+  useEffect(() => {
+    getTags().then((res) => {
+      setTagCard(res);
+      res.forEach((element, index) => {
+        const currentItem = tags ? tags.find((item) => item.id === element.id) : null;
+        if (currentItem) {
           form.setFields([
             {
               name: [CreatePostPayloadEnum.tagIds, index],
-              value: question.tags.map((item) => ({
+              value: currentItem.tags.map((item) => ({
                 id: item.id,
                 name: item.name,
                 value: item.id,
               })),
             },
           ]);
-        });
-    }
-  }, [post]);
-  useEffect(() => {
-    getTags().then((res) => {
-      setTagCard(res);
+        }
+      });
     });
   }, []);
 
@@ -187,10 +188,7 @@ const CreateEditPostModule = (props: Props) => {
                   <Form.Item
                     name={CreatePostPayloadEnum.cookTime}
                     className="w-full"
-                    rules={[
-                      { required: true, message: 'Vui lòng nhập trường này!' },
-                      // { max: 1000, message: 'Thời gian nấu quá lớn' },
-                    ]}
+                    rules={[{ required: true, message: 'Vui lòng nhập trường này!' }]}
                   >
                     <InputNumber
                       size="large"

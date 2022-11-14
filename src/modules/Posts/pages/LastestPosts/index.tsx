@@ -1,4 +1,3 @@
-import MediumPostCard from '@/components/PostsCard/MediumCard';
 import SmallPostCard from '@/components/PostsCard/SmallCard';
 import { IPost } from '@/interfaces/models/IPost';
 import { rawToIPost } from '@/pages';
@@ -17,16 +16,16 @@ const LastesPostListModule = (props: Props) => {
   const { posts, pagination } = props;
   const [postState, setPostState] = useState<IPost[]>(posts);
   const handlePaginationChange = (page: number, pageSize?: number) => {
-    console.log(page, pageSize);
-    onPaginationChange(page, pageSize);
+    const offset = page - 1;
+    onPaginationChange(offset, pageSize);
   };
 
-  const onPaginationChange = async (page: number, pageSize?: number) => {
+  const onPaginationChange = async (offset: number, pageSize?: number) => {
     try {
       appLibrary.showloading();
       const {
         data: { posts, pagination },
-      } = await postAPI.getUserPosts({ offset: page, limit: pageSize });
+      } = await postAPI.getUserPosts({ offset: offset, limit: pageSize });
       const newData = posts.map((item) => rawToIPost(item));
       setPostState(newData);
       appLibrary.hideloading();

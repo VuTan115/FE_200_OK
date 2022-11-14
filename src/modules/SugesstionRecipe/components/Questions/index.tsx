@@ -38,12 +38,7 @@ const Questions = (props: Props, ref) => {
       setDoneAnswers([...doneAnswers]);
     }
   };
-  const handleNextStep = () => {
-    sliderRef.current.next();
-    if (isDone) {
-      // console.log(doneAnswers);
-    }
-  };
+
   useImperativeHandle(ref, () => ({
     next: () => sliderRef.current.next(),
     prev: () => sliderRef.current.prev(),
