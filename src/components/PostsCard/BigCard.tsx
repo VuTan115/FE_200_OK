@@ -65,6 +65,7 @@ const ActionBuilder = () => {
 };
 const PostContent = (props: { post: IPost }) => {
   const { post } = props;
+  console.log(post);
   const [currentRate, setCurrentRate] = useState(
     caculateRate(post.upvote, post.downvote)
   );

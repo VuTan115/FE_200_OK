@@ -24,6 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
     const { id } = ctx.params;
     const { data } = await postAPI.getPostById(Number(id), { isSSR: true });
+    console.log(data);
     return {
       props: { post: rawToIPost(data) },
     };
