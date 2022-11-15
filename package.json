@@ -23,6 +23,7 @@
     "@nextui-org/react": "^1.0.0-beta.10",
     "@react-pdf-viewer/core": "^3.7.0",
     "@reduxjs/toolkit": "^1.8.3",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "@zeit/next-less": "^1.0.1",
     "antd": "^4.21.6",
     "antd-img-crop": "^4.2.3",
