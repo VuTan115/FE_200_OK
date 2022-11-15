@@ -82,7 +82,7 @@ const MediumPostCard = (props: Props) => {
               }
               description={
                 <div
-                  className="card-description-custom text-ellipsis overflow-hidden mb-4"
+                  className="mb-4 line-clamp-5"
                   dangerouslySetInnerHTML={{
                     // __html: post.content.split(' ').slice(0, 5).join(' ').concat('...'),
                     __html: post.content,
