@@ -38,5 +38,5 @@ export const uploadFile = async (file: File): Promise<UploadFileResponse> => {
   if (res.status != 204) {
     throw new Error('Error while uploading file');
   }
-  return { key: formData['key'] };
+  return { key: fields['key'] };
 };

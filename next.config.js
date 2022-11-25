@@ -23,8 +23,18 @@ module.exports = withLess({
       'joeschmoe.io',
       'images.foody.vn',
       'foodish-api.herokuapp.com',
+      'cookie.cdn.aqaurius6666.space'
     ],
     formats: ['image/avif', 'image/webp'],
   },
   experimental: { images: { layoutRaw: true }, appDir: true },
+  rewrites: async () => {
+    const CDN = process.env.NEXT_PUBLIC_CDN_URL;
+    return [
+      {
+        source: '/uploads/:path*',
+        destination: `${CDN}/uploads/:path*`,
+      },
+    ];
+  }
 });
