@@ -62,3 +62,4 @@ class PostAPI {
   }
 }
 export const postAPI = new PostAPI();
+export * from './upload';
