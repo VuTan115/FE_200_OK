@@ -12,6 +12,7 @@ export type CreatePostPayload = {
   isReceipe: boolean;
   tagIds: number[];
   cookTime: number;
+  thumbnail: string;
 };
 export interface ResponsePost {
   id: number;
@@ -26,7 +27,9 @@ export interface ResponsePost {
   upvote: number;
   downvote: number;
 }
-
+export type BookmarkPostParams = {
+  post_id: number;
+};
 class PostAPI {
   async getPostById(id: number, options?: { isSSR?: boolean }) {
     const res = await axios.get(
@@ -40,6 +43,29 @@ class PostAPI {
       `${options?.isSSR ? privateUrl : baseUrl}/posts?limit=${
         options.limit ?? defaultLimit
       }&offset=${options.offset ?? defaultOffset}`
+    );
+    return res.data;
+  }
+
+  async getAllBookmarkedPosts(options?: {
+    isSSR?: boolean;
+    offset?: number;
+    limit?: number;
+  }) {
+    const res = await axios.get(
+      `${options?.isSSR ? privateUrl : baseUrl}/posts/bookmark?limit=${
+        options.limit ?? defaultLimit
+      }&offset=${options.offset ?? defaultOffset}`
+    );
+    return res.data;
+  }
+
+  async getBookmarkedPosts(
+    userId: string | number,
+    options?: { isSSR?: boolean; offset?: number; limit?: number }
+  ) {
+    const res = await axios.get(
+      `${options?.isSSR ? privateUrl : baseUrl}/users/${userId}/bookmarks`
     );
     return res.data;
   }
@@ -58,6 +84,10 @@ class PostAPI {
   }
   async updatePosts(id: number, params: CreatePostPayload) {
     const res = await axios.put(`${baseUrl}/posts/${id}`, params);
+    return res.data;
+  }
+  async bookmarkPosts(params: BookmarkPostParams, userId: string) {
+    const res = await axios.post(`${baseUrl}/users/2/bookmarks`, params);
     return res.data;
   }
 }

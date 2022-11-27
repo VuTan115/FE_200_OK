@@ -9,7 +9,7 @@ import { postAPI } from '../../api';
 
 type Props = {
   posts: IPost[];
-  pagination: TOffset;
+  pagination?: TOffset;
 };
 
 const PostListModule = (props: Props) => {
@@ -35,18 +35,20 @@ const PostListModule = (props: Props) => {
   };
   return (
     <>
-      <div className="grid  sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
         {postState.map((post) => (
           <MediumPostCard post={post} />
         ))}
       </div>
-      <Pagination
-        defaultCurrent={1}
-        total={pagination.total}
-        defaultPageSize={10}
-        onChange={handlePaginationChange}
-        className="flex mx-auto justify-center items-center"
-      />
+      {pagination && (
+        <Pagination
+          defaultCurrent={1}
+          total={pagination.total}
+          defaultPageSize={10}
+          onChange={handlePaginationChange}
+          className="flex mx-auto justify-center items-center"
+        />
+      )}
     </>
   );
 };

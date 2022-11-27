@@ -1,18 +1,23 @@
 import CookiesIcon from '@/components/CookiesIcon';
 import { IPost } from '@/interfaces/models/IPost';
+import { BookmarkPostParams, postAPI } from '@/modules/Posts/api';
 import CommentDetail from '@/modules/Posts/components/Comment';
 import { formatServerDateToDurationString } from '@/shared/helpers';
+import { appLibrary } from '@/shared/utils/loading';
 import {
   CommentOutlined,
+  DiffOutlined,
   DownCircleOutlined,
   DownCircleTwoTone,
   EditOutlined,
   EllipsisOutlined,
   ShareAltOutlined,
+  SnippetsFilled,
+  SnippetsTwoTone,
   UpCircleOutlined,
   UpCircleTwoTone,
 } from '@ant-design/icons';
-import { Avatar, Card, Rate, Skeleton, Tooltip } from 'antd';
+import { Avatar, Card, message, Rate, Skeleton, Tooltip } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import Link from 'next/link';
 import React, { createElement, useEffect, useState } from 'react';
@@ -65,10 +70,10 @@ const ActionBuilder = () => {
 };
 const PostContent = (props: { post: IPost }) => {
   const { post } = props;
-  console.log(post);
   const [currentRate, setCurrentRate] = useState(
     caculateRate(post.upvote, post.downvote)
   );
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const customIcons: Record<number, React.ReactNode> = {
     1: <CookiesIcon />,
     2: <CookiesIcon />,
@@ -76,7 +81,23 @@ const PostContent = (props: { post: IPost }) => {
     4: <CookiesIcon />,
     5: <CookiesIcon />,
   };
+  const handleBookmarkPost = () => {
+    const params = { post_id: post.id };
+    onBookmarkPost(params);
+  };
+  const onBookmarkPost = async (params: BookmarkPostParams) => {
+    try {
+      appLibrary.showloading();
+      const res = await postAPI.bookmarkPosts(params, String(2));
+      setIsBookmarked(true);
+      appLibrary.hideloading();
 
+      message.success('Bài viết đã được lưu ');
+    } catch (error) {
+      appLibrary.hideloading();
+      message.error('Bài viết lưu thất bại!');
+    }
+  };
   return (
     <>
       <div className="flex justify-between items-center">
@@ -88,12 +109,30 @@ const PostContent = (props: { post: IPost }) => {
         <div>
           {/* caculate percent of upvode and downvote */}
 
-          <div className="flex flex-col justify-end items-end">
-            <Tooltip key="comment-basic-like" title="Chỉnh sửa bài viết">
-              <Link href={`/bai-dang/chinh-sua/${post.id}`}>
-                <EditOutlined size={32} />
-              </Link>
-            </Tooltip>
+          <div className="flex flex-col justify-end items-end ">
+            <div className="flex gap-5 justify-center items-center">
+              <Tooltip key="edit-post" title="Chỉnh sửa bài viết">
+                <Link href={`/bai-dang/chinh-sua/${post.id}`}>
+                  <EditOutlined size={32} />
+                </Link>
+              </Tooltip>
+              <Tooltip
+                key="bookmark-post"
+                title={isBookmarked ? 'Bài viết đã được lưu ' : 'Lưu bài viết'}
+              >
+                {isBookmarked ? (
+                  <SnippetsTwoTone size={34} twoToneColor="#ffbc58" disabled />
+                ) : (
+                  <DiffOutlined
+                    size={34}
+                    onClick={() => {
+                      handleBookmarkPost();
+                    }}
+                    className="cursor-pointer"
+                  />
+                )}
+              </Tooltip>
+            </div>
             <div>
               {currentRate}/5.0 &nbsp;
               <Rate

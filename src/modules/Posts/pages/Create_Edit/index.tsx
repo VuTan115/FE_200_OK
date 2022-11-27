@@ -2,18 +2,20 @@ import { IPost } from '@/interfaces/models/IPost';
 import { getQuestionRespose, questionAPI } from '@/modules/SugesstionRecipe/api';
 import { appLibrary } from '@/shared/utils/loading';
 import { Loading } from '@nextui-org/react';
-import { Button, Form, Input, InputNumber, message, Radio, Select } from 'antd';
+import { Button, Form, Input, InputNumber, message, Radio, Select, Upload } from 'antd';
+import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { isObject } from 'lodash-es';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { CreatePostPayload, postAPI } from '../../api';
+import { useEffect, useId, useState } from 'react';
+import { CreatePostPayload, postAPI, uploadFile } from '../../api';
 export enum CreatePostPayloadEnum {
   title = 'title',
   content = 'content',
   isReceipe = 'isReceipe',
   tagIds = 'tagIds',
   cookTime = 'cookTime',
+  thumbnail = 'thumbnail',
 }
 const Editor = dynamic(() => import('@/components/Editor'), {
   ssr: false,
@@ -36,14 +38,54 @@ const CreateEditPostModule = (props: Props) => {
     const { data } = await questionAPI.getQuestions(5);
     return data;
   };
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    const newFile = newFileList.pop();
+    if (newFile) {
+      setFileList([newFile]);
+      form.setFieldValue(CreatePostPayloadEnum.thumbnail, newFile);
+    } else {
+      setFileList([]);
+    }
+  };
+
+  const onPreview = async (file: UploadFile) => {
+    let src = file.url as string;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj as RcFile);
+        reader.onload = () => resolve(reader.result as string);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
+
   const [tagCard, setTagCard] = useState<getQuestionRespose[]>([]);
   const { post, tags } = props;
   const [form] = Form.useForm();
   const [isReceipe, setIsRecipe] = useState(false);
+  const uuid = useId();
   useEffect(() => {
     if (post) {
       setIsRecipe(post.isReceipe);
       form.setFieldsValue(post);
+      console.log(post);
+      setFileList([
+        {
+          uid: uuid,
+          url: process.env.NEXT_PUBLIC_CDN_URL + post.thumbnail,
+          name: CreatePostPayloadEnum.thumbnail,
+        },
+      ]);
+      form.setFieldValue(
+        CreatePostPayloadEnum.thumbnail,
+        process.env.NEXT_PUBLIC_CDN_URL + post.thumbnail
+      );
     }
   }, [post]);
   useEffect(() => {
@@ -74,12 +116,20 @@ const CreateEditPostModule = (props: Props) => {
       isReceipe: values.isReceipe,
       tagIds: values.tagIds.flat(),
       cookTime: values.cookTime,
+      thumbnail: '',
     });
   };
 
   const onCreatePost = async (params: CreatePostPayload) => {
     try {
       appLibrary.showloading();
+      const thumbnails = form.getFieldValue(CreatePostPayloadEnum.thumbnail)
+        ?.originFileObj as File;
+      const { key } = await uploadFile(thumbnails);
+
+      if (key) {
+        params.thumbnail = key;
+      }
       const { data, status, message: messFromSV } = await postAPI.createPosts(params);
       appLibrary.hideloading();
       if (status === 200) {
@@ -91,6 +141,7 @@ const CreateEditPostModule = (props: Props) => {
       return message.error(messFromSV);
       return;
     } catch (error) {
+      console.log(error);
       appLibrary.hideloading();
       message.error('Có lỗi xảy ra, vui lòng thử lại sau');
     }
@@ -103,12 +154,22 @@ const CreateEditPostModule = (props: Props) => {
       isReceipe: values.isReceipe,
       tagIds: values.tagIds.flat().map((item) => (isObject(item) ? item.id : item)), // shit code but busy now
       cookTime: values.cookTime,
+      thumbnail: post.thumbnail,
     });
   };
 
   const onUpdatePost = async (id: number, params: CreatePostPayload) => {
     try {
       appLibrary.showloading();
+
+      if (fileList.pop().uid !== CreatePostPayloadEnum.thumbnail) {
+        const thumbnails = form.getFieldValue(CreatePostPayloadEnum.thumbnail)
+          ?.originFileObj as File;
+        const { key } = await uploadFile(thumbnails);
+        if (key) {
+          params.thumbnail = key;
+        }
+      }
       const { data, status, message: messFromSV } = await postAPI.updatePosts(id, params);
       appLibrary.hideloading();
       if (status === 200) {
@@ -120,7 +181,7 @@ const CreateEditPostModule = (props: Props) => {
       return;
     } catch (error) {
       appLibrary.hideloading();
-
+      console.log(error);
       message.error('Có lỗi xảy ra, vui lòng thử lại sau');
     }
   };
@@ -227,6 +288,21 @@ const CreateEditPostModule = (props: Props) => {
                   </Form.Item>
                 </div>
               ))}
+            <span className="font-[500] text-[20px]">Chọn thumbnails</span>
+            <Form.Item
+              rules={[{ required: true, message: 'Chọn thumbnail!' }]}
+              name={CreatePostPayloadEnum.thumbnail}
+            >
+              <Upload
+                listType="picture-card"
+                fileList={fileList ?? []}
+                onChange={onChange}
+                onPreview={onPreview}
+              >
+                {fileList.length < 5 && '+ Upload '}
+              </Upload>
+              {/* </ImgCrop> */}
+            </Form.Item>
           </div>
         </div>
       </Form>

@@ -24,6 +24,7 @@ export interface IPost {
       }[];
     }[];
   }[];
+  thumbnail: string;
   createdAt: string;
   updatedAt: string;
 }

@@ -44,7 +44,7 @@ const MediumPostCard = (props: Props) => {
                 <Image
                   fill
                   sizes="100%"
-                  src={SrcImages.hamburger}
+                  src={post.thumbnail}
                   alt=""
                   loading="lazy"
                   blurDataURL={SrcIcons.iconLogo}
@@ -70,12 +70,12 @@ const MediumPostCard = (props: Props) => {
           <div className="flex justify-between items-start w-full h-[130px]">
             <Meta
               className="w-full"
-              avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+              // avatar={<Avatar src={post.thumbnail ?? "https://joeschmoe.io/api/v1/random"} />}
               title={
                 <div className="flex justify-between items-center w-full">
                   <h3 className="text-lg font-bold">{post?.author?.name}</h3>
                   <p className="whitespace-nowrap font-[300] text-[14px]">
-                    {post?.updatedAt.length > 0 &&
+                    {post?.updatedAt?.length > 0 &&
                       formatServerDateToDurationString(post?.updatedAt)}
                   </p>
                 </div>

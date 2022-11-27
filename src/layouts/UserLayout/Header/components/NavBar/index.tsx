@@ -40,6 +40,14 @@ const menuItems = [
     iconUrl: '',
     yieldName: '',
   },
+
+  {
+    name: 'Bài đã lưu',
+    hideOnMobile: true,
+    url: '/bai-da-luu',
+    iconUrl: '',
+    yieldName: '',
+  },
   // {
   //   name: 'Các bài đã viết',
   //   hideOnMobile: true,
