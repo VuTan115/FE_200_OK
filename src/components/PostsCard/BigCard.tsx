@@ -83,11 +83,11 @@ const PostContent = (props: { post: IPost }) => {
     5: <CookiesIcon />,
   };
   const handleBookmarkPost = () => {
-    const params = { post_id: post.id };
+    const params = { postId: post.id };
     onBookmarkPost(params);
   };
   const handleUnbookmarkPost = () => {
-    const params = { post_id: post.id };
+    const params = { postId: post.id };
     onUnbookmarkPost(params);
   };
   const onUnbookmarkPost = async (params: BookmarkPostParams) => {

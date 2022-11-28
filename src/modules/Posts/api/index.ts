@@ -28,7 +28,7 @@ export interface ResponsePost {
   downvote: number;
 }
 export type BookmarkPostParams = {
-  post_id: number;
+  postId: number;
 };
 class PostAPI {
   async getPostById(id: number, options?: { isSSR?: boolean }) {
