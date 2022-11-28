@@ -21,6 +21,7 @@ import { Avatar, Card, message, Rate, Skeleton, Tooltip } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import Link from 'next/link';
 import React, { createElement, useEffect, useState } from 'react';
+import { useBookmark } from '../../hooks/useBookmark';
 export const caculateRate = (upvote: number, downvote: number) => {
   if (upvote === 0 && downvote === 0) {
     return Number(0).toFixed(1);
@@ -73,7 +74,7 @@ const PostContent = (props: { post: IPost }) => {
   const [currentRate, setCurrentRate] = useState(
     caculateRate(post.upvote, post.downvote)
   );
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [mark, unmark, isMarked] = useBookmark();
   const customIcons: Record<number, React.ReactNode> = {
     1: <CookiesIcon />,
     2: <CookiesIcon />,
@@ -85,11 +86,26 @@ const PostContent = (props: { post: IPost }) => {
     const params = { post_id: post.id };
     onBookmarkPost(params);
   };
+  const handleUnbookmarkPost = () => {
+    const params = { post_id: post.id };
+    onUnbookmarkPost(params);
+  };
+  const onUnbookmarkPost = async (params: BookmarkPostParams) => {
+    try {
+      appLibrary.showloading();
+      const res = await postAPI.unbookmarkPosts(params, String(2));
+      unmark(post.id);
+      appLibrary.hideloading();
+    } catch (error) {
+      appLibrary.hideloading();
+      message.error('Bài viết huỷ lưu thất bại!');
+    }
+  };
   const onBookmarkPost = async (params: BookmarkPostParams) => {
     try {
       appLibrary.showloading();
       const res = await postAPI.bookmarkPosts(params, String(2));
-      setIsBookmarked(true);
+      mark(post.id);
       appLibrary.hideloading();
 
       message.success('Bài viết đã được lưu ');
@@ -118,10 +134,15 @@ const PostContent = (props: { post: IPost }) => {
               </Tooltip>
               <Tooltip
                 key="bookmark-post"
-                title={isBookmarked ? 'Bài viết đã được lưu ' : 'Lưu bài viết'}
+                title={isMarked(post.id) ? 'Bài viết đã được lưu ' : 'Lưu bài viết'}
               >
-                {isBookmarked ? (
-                  <SnippetsTwoTone size={34} twoToneColor="#ffbc58" disabled />
+                {isMarked(post.id) ? (
+                  <SnippetsTwoTone
+                    size={34}
+                    twoToneColor="#ffbc58"
+                    disabled
+                    onClick={handleUnbookmarkPost}
+                  />
                 ) : (
                   <DiffOutlined
                     size={34}

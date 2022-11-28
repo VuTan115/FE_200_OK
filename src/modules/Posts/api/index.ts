@@ -90,6 +90,12 @@ class PostAPI {
     const res = await axios.post(`${baseUrl}/users/2/bookmarks`, params);
     return res.data;
   }
+  async unbookmarkPosts(params: BookmarkPostParams, userId: string) {
+    const res = await axios.delete(`${baseUrl}/users/2/bookmarks`, {
+      data: params,
+    });
+    return res.data;
+  }
 }
 export const postAPI = new PostAPI();
 export * from './upload';
