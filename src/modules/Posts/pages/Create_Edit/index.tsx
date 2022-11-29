@@ -158,7 +158,10 @@ const CreateEditPostModule = (props: Props) => {
     try {
       appLibrary.showloading();
 
-      if (fileList.pop().uid !== CreatePostPayloadEnum.thumbnail) {
+      if (
+        fileList.length > 0 &&
+        fileList.pop()?.uid !== CreatePostPayloadEnum.thumbnail
+      ) {
         const thumbnails = form.getFieldValue(CreatePostPayloadEnum.thumbnail)
           ?.originFileObj as File;
         const { key } = await uploadFile(thumbnails);
