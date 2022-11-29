@@ -167,7 +167,7 @@ const PostContent = (props: { post: IPost }) => {
           </div>
         </div>
       </div>
-      <div className="post-content">
+      <div className="post-content overflow-auto">
         <div className="title">
           <h1 className="text-2xl font-bold">{post.title}</h1>
         </div>

@@ -21,7 +21,7 @@ const Home: NextPage = (props: Props) => {
         <Link href="/bai-da-luu">
           <span>Bài viết đã lưu </span>
         </Link>
-        <PostListModule posts={lastestPost} />
+        <PostListModule posts={bookmarkedPost} />
 
         <Link href="/bai-dang-moi-nhat">
           <span>Bài viết mới nhất </span>
@@ -100,13 +100,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       const {
         data: { posts },
       } = res1.value;
-      bookmarkedPost = posts.slice(0, 4);
+      lastestPost = posts.slice(0, 4);
     }
     if (res2.status === 'fulfilled') {
       const {
         data: { posts },
       } = res2.value;
-      lastestPost = posts.slice(0, 4);
+      bookmarkedPost = posts.slice(0, 4);
     }
 
     return {

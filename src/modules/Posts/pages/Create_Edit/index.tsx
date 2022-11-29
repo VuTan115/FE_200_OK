@@ -199,7 +199,7 @@ const CreateEditPostModule = (props: Props) => {
           </div>
         </div>
         <div className="flex flex-row gap-5">
-          <div className="right-side flex flex-col gap-4 w-2/3">
+          <div className="left-side flex flex-col gap-4 w-2/3">
             <span className="font-[500] text-[20px]">Loại bài đăng</span>
             <Form.Item
               name={CreatePostPayloadEnum.isReceipe}
@@ -239,7 +239,22 @@ const CreateEditPostModule = (props: Props) => {
               <Editor defaultValue={post?.content ?? ''} onChange={(value) => {}} />
             </Form.Item>
           </div>
-          <div className="left-side flex flex-col gap-4  w-1/3">
+          <div className="right-side flex flex-col gap-4  w-1/3">
+            <span className="font-[500] text-[20px]">Chọn thumbnails</span>
+            <Form.Item
+              rules={[{ required: true, message: 'Chọn thumbnail!' }]}
+              name={CreatePostPayloadEnum.thumbnail}
+            >
+              <Upload
+                listType="picture-card"
+                fileList={fileList ?? []}
+                onChange={onChange}
+                onPreview={onPreview}
+              >
+                {fileList.length < 5 && '+ Upload '}
+              </Upload>
+              {/* </ImgCrop> */}
+            </Form.Item>
             {isReceipe && (
               <div>
                 <span className="font-[500] text-[20px]">Thời gian nấu</span>
@@ -288,21 +303,6 @@ const CreateEditPostModule = (props: Props) => {
                   </Form.Item>
                 </div>
               ))}
-            <span className="font-[500] text-[20px]">Chọn thumbnails</span>
-            <Form.Item
-              rules={[{ required: true, message: 'Chọn thumbnail!' }]}
-              name={CreatePostPayloadEnum.thumbnail}
-            >
-              <Upload
-                listType="picture-card"
-                fileList={fileList ?? []}
-                onChange={onChange}
-                onPreview={onPreview}
-              >
-                {fileList.length < 5 && '+ Upload '}
-              </Upload>
-              {/* </ImgCrop> */}
-            </Form.Item>
           </div>
         </div>
       </Form>
