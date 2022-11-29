@@ -28,7 +28,7 @@ export const getPresignedUrl = async (
   }
 };
 export const uploadFile = async (file: File): Promise<UploadFileResponse> => {
-  const { url, fields } = await getPresignedUrl(file.arrayBuffer().toString(), file.name);
+  const { url, fields } = await getPresignedUrl((await file.arrayBuffer()).toString(), file.name);
   const formData = new FormData();
   Object.keys(fields).forEach((key) => {
     formData.append(key, fields[key]);

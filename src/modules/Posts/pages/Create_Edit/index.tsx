@@ -78,13 +78,13 @@ const CreateEditPostModule = (props: Props) => {
       setFileList([
         {
           uid: uuid,
-          url: process.env.NEXT_PUBLIC_CDN_URL + post.thumbnail,
+          url:  post.thumbnail,
           name: CreatePostPayloadEnum.thumbnail,
         },
       ]);
       form.setFieldValue(
         CreatePostPayloadEnum.thumbnail,
-        process.env.NEXT_PUBLIC_CDN_URL + post.thumbnail
+         post.thumbnail
       );
     }
   }, [post]);
@@ -139,7 +139,6 @@ const CreateEditPostModule = (props: Props) => {
         return;
       }
       return message.error(messFromSV);
-      return;
     } catch (error) {
       console.log(error);
       appLibrary.hideloading();
@@ -178,7 +177,6 @@ const CreateEditPostModule = (props: Props) => {
         return;
       }
       return message.error(messFromSV);
-      return;
     } catch (error) {
       appLibrary.hideloading();
       console.log(error);
