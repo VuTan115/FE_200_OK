@@ -78,14 +78,11 @@ const CreateEditPostModule = (props: Props) => {
       setFileList([
         {
           uid: uuid,
-          url:  post.thumbnail,
+          url: post.thumbnail,
           name: CreatePostPayloadEnum.thumbnail,
         },
       ]);
-      form.setFieldValue(
-        CreatePostPayloadEnum.thumbnail,
-         post.thumbnail
-      );
+      form.setFieldValue(CreatePostPayloadEnum.thumbnail, post.thumbnail);
     }
   }, [post]);
   useEffect(() => {
