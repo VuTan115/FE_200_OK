@@ -23,7 +23,7 @@ module.exports = withLess({
       'joeschmoe.io',
       'images.foody.vn',
       'foodish-api.herokuapp.com',
-      'cookie.cdn.aqaurius6666.space'
+      'cookie.cdn.aqaurius6666.space',
     ],
     formats: ['image/avif', 'image/webp'],
   },
@@ -36,5 +36,5 @@ module.exports = withLess({
         destination: `${CDN}/uploads/:path*`,
       },
     ];
-  }
+  },
 });

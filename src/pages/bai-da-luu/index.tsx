@@ -1,10 +1,8 @@
 import { IPost } from '@/interfaces/models/IPost';
 import { postAPI } from '@/modules/Posts/api';
 import PostListModule from '@/modules/Posts/pages/AllPosts';
-import LastesPostListModule from '@/modules/Posts/pages/LastestPosts';
 import { TOffset } from '@/types';
 import { GetServerSideProps } from 'next';
-import { rawToIPost } from '..';
 
 type Props = {
   pagination: TOffset;

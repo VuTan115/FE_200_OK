@@ -6,6 +6,9 @@ import type { NextPage } from 'next';
 import { Author } from '@/modules/SugesstionRecipe/api';
 import { TOffset } from '@/types';
 import Link from 'next/link';
+import { Button } from 'antd';
+import { useRouter } from 'next/router';
+import { CaretDownOutlined } from '@ant-design/icons';
 
 type Props = {
   lastestPost: IPost[];
@@ -14,21 +17,34 @@ type Props = {
 };
 const Home: NextPage = (props: Props) => {
   const { lastestPost, bookmarkedPost, pagination } = props;
+  const router = useRouter();
   return (
-    <>
-      <h1 className="text-center text-2xl">Hôm nay ăn gì nhỉ?</h1>
-      <div className="flex flex-col">
-        <Link href="/bai-da-luu">
-          <span>Bài viết đã lưu </span>
-        </Link>
-        <PostListModule posts={bookmarkedPost} />
+    <div>
+      <h1 className="text-center text-[40px] font-bold">Hôm nay ăn gì nhỉ?</h1>
+      <div className="flex justify-center my-4">
+        <Button type="primary" size="large" onClick={() => router.push('/goi-y')}>
+          Bắt đầu
+        </Button>
+      </div>
 
+      <div className="flex justify-center items-center text-[24px]">
+        <CaretDownOutlined />
+        Khám phá món ăn
+        <CaretDownOutlined />
+      </div>
+
+      <div className="flex flex-col">
         <Link href="/bai-dang-moi-nhat">
-          <span>Bài viết mới nhất </span>
+          <h2 className="text-[28px] my-4">Bài viết mới nhất </h2>
         </Link>
         <PostListModule posts={lastestPost} />
+
+        <Link href="/bai-da-luu">
+          <h2 className="text-[28px] my-4">Bài viết đã lưu </h2>
+        </Link>
+        <PostListModule posts={bookmarkedPost} />
       </div>
-    </>
+    </div>
   );
 };
 

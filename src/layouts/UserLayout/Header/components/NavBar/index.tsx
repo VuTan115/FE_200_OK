@@ -13,19 +13,26 @@ export interface INavBarProps {
 }
 const menuItems = [
   {
+    name: 'Gợi ý',
+    hideOnMobile: true,
+    url: '/goi-y',
+    iconUrl: '',
+    yieldName: '',
+  },
+  {
     name: 'Viết bài',
     hideOnMobile: true,
     url: '/tao-bai-viet',
     iconUrl: '',
     yieldName: '',
   },
-  {
-    name: 'Bài đã đăng',
-    hideOnMobile: true,
-    url: '/bai-dang',
-    iconUrl: '',
-    yieldName: '',
-  },
+  // {
+  //   name: 'Bài đã đăng',
+  //   hideOnMobile: true,
+  //   url: '/bai-dang',
+  //   iconUrl: '',
+  //   yieldName: '',
+  // },
   {
     name: 'Bài đăng mới nhất',
     hideOnMobile: true,
@@ -33,14 +40,6 @@ const menuItems = [
     iconUrl: '',
     yieldName: '',
   },
-  {
-    name: 'Gợi ý',
-    hideOnMobile: true,
-    url: '/goi-y',
-    iconUrl: '',
-    yieldName: '',
-  },
-
   {
     name: 'Bài đã lưu',
     hideOnMobile: true,
