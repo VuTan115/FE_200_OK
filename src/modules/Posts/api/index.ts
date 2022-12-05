@@ -30,6 +30,10 @@ export interface ResponsePost {
 export type BookmarkPostParams = {
   postId: number;
 };
+
+export type VotingPostParams = {
+  postId: number;
+};
 class PostAPI {
   async getPostById(id: number, options?: { isSSR?: boolean }) {
     const res = await axios.get(
@@ -94,6 +98,29 @@ class PostAPI {
     const res = await axios.delete(`${baseUrl}/users/2/bookmarks`, {
       data: params,
     });
+    return res.data;
+  }
+  async upvotePost(params: VotingPostParams, userId: string) {
+    const res = await axios.post(`${baseUrl}/users/${userId}/upvote`, params);
+    return res.data;
+  }
+  async downvotePost(params: VotingPostParams, userId: string) {
+    const res = await axios.post(`${baseUrl}/users/${userId}/downvote`, params);
+    return res.data;
+  }
+  async unvotePost(params: VotingPostParams, userId: string) {
+    const res = await axios.post(`${baseUrl}/users/${userId}/unvote`, params);
+    return res.data;
+  }
+  async getVotingsOf(postIds: number[]) {
+    const query = postIds
+      ? postIds.map((post) => `postIds[]=${post}`).join('&')
+      : undefined;
+    const res = await axios.get(`${baseUrl}/posts/voting?${query}`);
+    return res.data;
+  }
+  async getUserVotings(userId: number) {
+    const res = await axios.get(`${baseUrl}/users/${userId}/votings`);
     return res.data;
   }
 }

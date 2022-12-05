@@ -22,38 +22,48 @@ import Meta from 'antd/lib/card/Meta';
 import Link from 'next/link';
 import React, { createElement, useEffect, useState } from 'react';
 import { useBookmark } from '../../hooks/useBookmark';
+import { useVoting } from '../../hooks/useVoting';
 export const caculateRate = (upvote: number, downvote: number) => {
   if (upvote === 0 && downvote === 0) {
     return Number(0).toFixed(1);
   }
-  return Number(upvote / (upvote + downvote)).toFixed(1);
+  return Number((upvote / (upvote + downvote)) * 5).toFixed(1);
 };
-const ActionBuilder = () => {
-  const [action, setAction] = useState<string | null>(null);
+const ActionBuilder = (props: { postId: number }) => {
+  // const [action, setAction] = useState<string | null>(null);
 
+  const { upvote, downvote, myVoteOfPost } = useVoting();
   const like = () => {
-    setAction('liked');
+    // setAction('liked');
+    upvote(props.postId);
   };
 
   const dislike = () => {
-    setAction('disliked');
+    // setAction('disliked');
+    downvote(props.postId);
   };
   const actions = [
     <div onClick={like}>
       <Tooltip key="comment-basic-like" title="UpVote">
         <span>
-          {createElement(action === 'liked' ? UpCircleTwoTone : UpCircleOutlined, {
-            twoToneColor: action === 'liked' ? '#ffbc58' : '#eb2f96',
-          })}
+          {createElement(
+            myVoteOfPost(props.postId).upvote ? UpCircleTwoTone : UpCircleOutlined,
+            {
+              twoToneColor: myVoteOfPost(props.postId).upvote ? '#ffbc58' : '#eb2f96',
+            }
+          )}
         </span>
       </Tooltip>
     </div>,
     <div onClick={dislike}>
       <Tooltip key="comment-basic-dislike" title="DownVote">
         <span>
-          {createElement(action === 'disliked' ? DownCircleTwoTone : DownCircleOutlined, {
-            twoToneColor: action === 'disliked' ? '#ffbc58' : '#eb2f96',
-          })}
+          {createElement(
+            myVoteOfPost(props.postId).downvote ? DownCircleTwoTone : DownCircleOutlined,
+            {
+              twoToneColor: myVoteOfPost(props.postId).downvote ? '#ffbc58' : '#eb2f96',
+            }
+          )}
         </span>
       </Tooltip>
     </div>,
@@ -71,9 +81,10 @@ const ActionBuilder = () => {
 };
 const PostContent = (props: { post: IPost }) => {
   const { post } = props;
-  const [currentRate, setCurrentRate] = useState(
-    caculateRate(post.upvote, post.downvote)
-  );
+  // const [currentRate, setCurrentRate] = useState(
+  //   caculateRate(post.upvote, post.downvote)
+  // );
+  const { voteOfPost, subscribeVotings, unSubscribeVotings } = useVoting();
   const [mark, unmark, isMarked] = useBookmark();
   const customIcons: Record<number, React.ReactNode> = {
     1: <CookiesIcon />,
@@ -82,6 +93,14 @@ const PostContent = (props: { post: IPost }) => {
     4: <CookiesIcon />,
     5: <CookiesIcon />,
   };
+
+  useEffect(() => {
+    subscribeVotings(post.id);
+    return () => {
+      unSubscribeVotings(post.id);
+    };
+  }, []);
+
   const handleBookmarkPost = () => {
     const params = { postId: post.id };
     onBookmarkPost(params);
@@ -155,11 +174,12 @@ const PostContent = (props: { post: IPost }) => {
               </Tooltip>
             </div>
             <div>
-              {currentRate}/5.0 &nbsp;
+              {voteOfPost(post.id)}/5.0 &nbsp;
               <Rate
                 disabled
                 allowHalf
-                defaultValue={Number(currentRate)}
+                defaultValue={Number(voteOfPost(post.id))}
+                value={Number(voteOfPost(post.id))}
                 className="text-[var(--primary-color)]"
                 character={({ index }: { index: number }) => customIcons[index + 1]}
               />
@@ -205,7 +225,7 @@ const BigPostCard = (props: Props) => {
   }, []);
   return (
     <div>
-      <Card className="w-full" actions={ActionBuilder()}>
+      <Card className="w-full" actions={ActionBuilder({ postId: post.id })}>
         <Skeleton loading={loading} avatar active>
           <PostContent post={post} />
           <CommentDetail />

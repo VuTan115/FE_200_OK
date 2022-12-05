@@ -7,6 +7,7 @@ import Meta from 'antd/lib/card/Meta';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useVoting } from '../../hooks/useVoting';
 import { caculateRate } from './BigCard';
 
 type Props = {
@@ -16,15 +17,15 @@ type Props = {
 const MediumPostCard = (props: Props) => {
   const { post } = props;
   const [show, setShow] = useState(false);
-  const [image, setImage] = useState(SrcIcons.iconLogo);
-  useEffect(() => {
-    image === SrcIcons.iconLogo &&
-      fetch('https://foodish-api.herokuapp.com/api/')
-        .then((res) => res.json())
-        .then((data) => {
-          setImage(data.image);
-        });
-  }, []);
+  // const [image, setImage] = useState(SrcIcons.iconLogo);
+  // useEffect(() => {
+  //   image === SrcIcons.iconLogo &&
+  //     fetch('https://foodish-api.herokuapp.com/api/')
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setImage(data.image);
+  //       });
+  // }, []);
 
   useEffect(() => {
     setTimeout(() => {

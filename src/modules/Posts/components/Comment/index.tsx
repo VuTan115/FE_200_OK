@@ -7,7 +7,7 @@ import {
 import { Avatar, Comment, Tooltip } from 'antd';
 import React, { createElement, useState } from 'react';
 
-const CommentDetail: React.FC = () => {
+const CommentDetail: React.FC = (props: { postId: number }) => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState<string | null>(null);

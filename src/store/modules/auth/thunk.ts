@@ -1,6 +1,4 @@
-import { Cookies } from '@/shared/axios';
-import { authService } from '@/shared/services';
-import { checkAuth, setAuthUser } from './slice';
+import { checkAuth } from './slice';
 
 export function asyncProcessAuth(): any {
   return (dispatch) => {
