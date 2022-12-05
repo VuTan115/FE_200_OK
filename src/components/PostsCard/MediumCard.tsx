@@ -7,7 +7,6 @@ import Meta from 'antd/lib/card/Meta';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useVoting } from '../../hooks/useVoting';
 import { caculateRate } from './BigCard';
 
 type Props = {

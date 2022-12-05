@@ -80,11 +80,13 @@ export const useVoting = () => {
   const upvote = useCallback(async (postId: number) => {
     dispatch(asyncUpvote(postId));
     await postAPI.upvotePost({ postId }, '2');
+    await refetch(voting.subscribedPosts);
   }, []);
 
   const downvote = useCallback(async (postId: number) => {
     dispatch(asyncDownvote(postId));
     await postAPI.downvotePost({ postId }, '2');
+    await refetch(voting.subscribedPosts);
   }, []);
 
   const unvote = useCallback(async (postId: number) => {
