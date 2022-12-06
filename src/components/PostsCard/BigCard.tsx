@@ -32,7 +32,7 @@ export const caculateRate = (upvote: number, downvote: number) => {
 const ActionBuilder = (props: { postId: number }) => {
   // const [action, setAction] = useState<string | null>(null);
 
-  const { upvote, downvote, myVoteOfPost } = useVoting();
+  const { upvote, downvote, myVoteOfPost, unvote } = useVoting();
   const like = () => {
     // setAction('liked');
     upvote(props.postId);
@@ -42,8 +42,12 @@ const ActionBuilder = (props: { postId: number }) => {
     // setAction('disliked');
     downvote(props.postId);
   };
+  const removeLike = () => {
+    // setAction('disliked');
+    unvote(props.postId);
+  };
   const actions = [
-    <div onClick={like}>
+    <div onClick={() => !myVoteOfPost(props.postId).upvote ? like() : removeLike()}>
       <Tooltip key="comment-basic-like" title="UpVote">
         <span>
           {createElement(
@@ -55,7 +59,7 @@ const ActionBuilder = (props: { postId: number }) => {
         </span>
       </Tooltip>
     </div>,
-    <div onClick={dislike}>
+    <div onClick={() => !myVoteOfPost(props.postId).downvote ? dislike() : removeLike()}>
       <Tooltip key="comment-basic-dislike" title="DownVote">
         <span>
           {createElement(

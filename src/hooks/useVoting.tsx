@@ -16,10 +16,14 @@ import { PostVoting } from '../store/modules/voting/types';
 export const useVoting = () => {
   const voting = useSelector((state: IRootState) => state.voting);
   const dispatch = useDispatch();
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
     if (voting.subscribedPosts.length === 0) {
       return;
+    }
+    if (!isSubscribed) {
+        return;
     }
     refetch(voting.subscribedPosts);
     const callback = async () => {
@@ -27,7 +31,7 @@ export const useVoting = () => {
     };
     const interval = setInterval(callback, 5000);
     return () => clearInterval(interval);
-  }, [JSON.stringify(voting.subscribedPosts)]);
+  }, [JSON.stringify(voting.subscribedPosts), isSubscribed]);
 
   useEffect(() => {
     return () => {
@@ -48,6 +52,7 @@ export const useVoting = () => {
   }, []);
 
   const subscribeVotings = (input: number | number[]) => {
+    setIsSubscribed(true)
     let array = voting.subscribedPosts;
     if (Array.isArray(input)) {
       array = Array.from(new Set([...array, ...input]).values());
@@ -57,6 +62,7 @@ export const useVoting = () => {
     dispatch(asyncSubscribeVotingPosts(array));
   };
   const unSubscribeVotings = (input: number | number[]) => {
+    setIsSubscribed(false)
     let array = voting.subscribedPosts;
     if (Array.isArray(input)) {
       array = array.filter((postId) => !input.includes(postId));
@@ -70,6 +76,9 @@ export const useVoting = () => {
     (postId: number) => {
       const vote = voting.postVotings?.find((voting) => voting.id === postId);
       if (!vote) {
+        return (0).toFixed(1);
+      }
+      if (vote.upvote + vote.downvote === 0) {
         return (0).toFixed(1);
       }
       return ((vote.upvote / (vote.downvote + vote.upvote)) * 5.0).toFixed(1);
@@ -92,6 +101,7 @@ export const useVoting = () => {
   const unvote = useCallback(async (postId: number) => {
     dispatch(asyncUnvote(postId));
     await postAPI.unvotePost({ postId }, '2');
+    await refetch(voting.subscribedPosts);
   }, []);
 
   const myVoteOfPost = useCallback(
