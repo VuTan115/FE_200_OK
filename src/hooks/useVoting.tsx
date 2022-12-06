@@ -23,7 +23,7 @@ export const useVoting = () => {
       return;
     }
     if (!isSubscribed) {
-        return;
+      return;
     }
     refetch(voting.subscribedPosts);
     const callback = async () => {
@@ -52,7 +52,7 @@ export const useVoting = () => {
   }, []);
 
   const subscribeVotings = (input: number | number[]) => {
-    setIsSubscribed(true)
+    setIsSubscribed(true);
     let array = voting.subscribedPosts;
     if (Array.isArray(input)) {
       array = Array.from(new Set([...array, ...input]).values());
@@ -62,7 +62,7 @@ export const useVoting = () => {
     dispatch(asyncSubscribeVotingPosts(array));
   };
   const unSubscribeVotings = (input: number | number[]) => {
-    setIsSubscribed(false)
+    setIsSubscribed(false);
     let array = voting.subscribedPosts;
     if (Array.isArray(input)) {
       array = array.filter((postId) => !input.includes(postId));
@@ -90,19 +90,19 @@ export const useVoting = () => {
     dispatch(asyncUpvote(postId));
     await postAPI.upvotePost({ postId }, '2');
     await refetch(voting.subscribedPosts);
-  }, []);
+  }, [voting.subscribedPosts]);
 
   const downvote = useCallback(async (postId: number) => {
     dispatch(asyncDownvote(postId));
     await postAPI.downvotePost({ postId }, '2');
     await refetch(voting.subscribedPosts);
-  }, []);
+  }, [voting.subscribedPosts]);
 
   const unvote = useCallback(async (postId: number) => {
     dispatch(asyncUnvote(postId));
     await postAPI.unvotePost({ postId }, '2');
     await refetch(voting.subscribedPosts);
-  }, []);
+  }, [voting.subscribedPosts]);
 
   const myVoteOfPost = useCallback(
     (postId: number): PostVoting => {

@@ -47,7 +47,7 @@ const ActionBuilder = (props: { postId: number }) => {
     unvote(props.postId);
   };
   const actions = [
-    <div onClick={() => !myVoteOfPost(props.postId).upvote ? like() : removeLike()}>
+    <div onClick={() => (!myVoteOfPost(props.postId).upvote ? like() : removeLike())}>
       <Tooltip key="comment-basic-like" title="UpVote">
         <span>
           {createElement(
@@ -59,7 +59,9 @@ const ActionBuilder = (props: { postId: number }) => {
         </span>
       </Tooltip>
     </div>,
-    <div onClick={() => !myVoteOfPost(props.postId).downvote ? dislike() : removeLike()}>
+    <div
+      onClick={() => (!myVoteOfPost(props.postId).downvote ? dislike() : removeLike())}
+    >
       <Tooltip key="comment-basic-dislike" title="DownVote">
         <span>
           {createElement(
